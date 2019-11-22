@@ -10,6 +10,7 @@ build_tf_container:
     services:
         - docker:dind
     before_script:
+        - cd ./Terraform
         - docker login registry.gitlab.com -u mateusz.lewicki -p 9YS9pwVMNNdEkz2kmx71
     script: 
         - docker build -t registry.gitlab.com/mateusz.lewicki/aws_poc/terraform .
