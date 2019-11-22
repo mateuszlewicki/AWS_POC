@@ -54,4 +54,4 @@ resource "aws_lambda_function" "delete"{}
 
 # API Endpoint
 
-resource "aws_api_gateway_rest_api" "graphQl_intake" {)
+resource "aws_api_gateway_rest_api" "graphQl_intake" {}
