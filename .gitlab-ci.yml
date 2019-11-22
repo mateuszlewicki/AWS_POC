@@ -1,0 +1,7 @@
+image: hashicorp/terraform
+
+stages:
+    - validate
+job 0:
+    stage: validate
+    script: terraform validate Terraform
