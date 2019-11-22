@@ -1,7 +1,15 @@
+stages:
+    - build
+    - validate
+
 build_tf_container:
+    stage: build
     image: docker
+    services:
+        - docker
     script: 
         - docker build -t my-docker-image .
 job:
+    stage: validate
     image: my-docker-image
     script: terraform validate ./Terraform
