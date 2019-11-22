@@ -1,14 +1,19 @@
 stages:
     - build
     - validate
+    
 build_tf_container:
     stage: build
     image: docker
     services:
         - docker:dind
+    before script:
+        - docker login registry.gitlab.com 
+        #-u -p 9YS9pwVMNNdEkz2kmx71
     script: 
-        - docker build -t my-docker-image .
+        - docker build -t registry.example.com/private/AWS_POC/terraform .
+        - docker push registry.example.com/private/AWS_POC/terraform
 job:
     stage: validate
-    image: my-docker-image
+    image: registry.example.com/private/AWS_POC/terraform:latest
     script: terraform validate ./Terraform
