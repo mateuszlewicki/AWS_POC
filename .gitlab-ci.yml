@@ -1,5 +1,7 @@
+build_tf_container:
+    image: docker
+    script: 
+        - docker build -t my-docker-image .
 job:
-    image:
-        name: hashicorp/terraform
-        command: terraform validate Terraform
-    script: echo "done"
+    image: my-docker-image
+    script: terraform validate ./Terraform
