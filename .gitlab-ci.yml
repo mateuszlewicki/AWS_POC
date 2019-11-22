@@ -1,14 +1,11 @@
 stages:
     - build
     - validate
-variables:
-  DOCKER_TLS_CERTDIR: ""
-
 build_tf_container:
     stage: build
     image: docker
     services:
-        - docker
+        - docker:dind
     script: 
         - docker build -t my-docker-image .
 job:
