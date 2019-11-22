@@ -1,7 +1,11 @@
 FROM centos:7
 MAINTAINER "Mateusz Lewicki Atos Polska Global Services mateusz.lewicki@atos.net"
 
+RUN yum -y install wget
+RUN yum -y install unzip
+
 RUN yum -y install ansible
+
 
 ENV PACKER_RELEASE="1.4.5"
 RUN cd /tmp/
