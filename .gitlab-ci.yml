@@ -7,7 +7,7 @@ build_tf_container:
     image: docker
     services:
         - docker:dind
-    before script:
+    before_script:
         - docker login registry.gitlab.com 
         #-u -p 9YS9pwVMNNdEkz2kmx71
     script: 
