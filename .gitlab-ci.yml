@@ -1,5 +1,23 @@
+variables:
+    BUILD_TF_IMG: 'false'
 stages:
+    - build
     - validate
-validate:
-    image: hashicorp/terraform
-    command: terraform validate Terraform
+    
+build_tf_container:
+    stage: build
+    image: docker
+    services:
+        - docker:dind
+    before_script:
+        - docker login registry.gitlab.com -u mateusz.lewicki -p 9YS9pwVMNNdEkz2kmx71
+    script: 
+        - docker build -t registry.gitlab.com/mateusz.lewicki/aws_poc/terraform .
+        - docker push registry.gitlab.com/mateusz.lewicki/aws_poc/terraform
+    only: 
+        variables:
+            - $BUILD_TF_IMG=='true'
+job:
+    stage: validate
+    image: registry.gitlab.com/mateusz.lewicki/aws_poc/terraform:latest
+    script: terraform validate ./Terraform
