@@ -1,11 +1,14 @@
 variables:
     BUILD_TF_IMG: 'false'
+    BUILD_PACKER_IMG: 'true'
+    VALIDATE_TF: 'false'
 stages:
-    - build
+    - build_img
+    - build_ami
     - validate
     
 build_tf_container:
-    stage: build
+    stage: build_img
     image: docker
     services:
         - docker:dind
@@ -18,6 +21,22 @@ build_tf_container:
     only: 
         variables:
             - $BUILD_TF_IMG=='true'
+
+build_packer_container:
+    stage: build_img
+    image: docker
+    services:
+        - docker:dind
+    before_script:
+        - cd ./Packer
+        - docker login registry.gitlab.com -u mateusz.lewicki -p 9YS9pwVMNNdEkz2kmx71
+    script: 
+        - docker build -t registry.gitlab.com/mateusz.lewicki/aws_poc/packer .
+        - docker push registry.gitlab.com/mateusz.lewicki/aws_poc/packer
+    only: 
+        variables:
+            - $BUILD_PACKER_IMG=='true'
+
 job:
     stage: validate
     before_script:
@@ -26,3 +45,6 @@ job:
     image: registry.gitlab.com/mateusz.lewicki/aws_poc/terraform:latest
     script: 
         - terraform validate
+    only: 
+        variables:
+            - $VALIDATE_TF=='true'
