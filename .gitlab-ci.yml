@@ -1,3 +1,4 @@
 job:
     image: hashicorp/terraform
     command: terraform validate Terraform
+    script: echo "done"
