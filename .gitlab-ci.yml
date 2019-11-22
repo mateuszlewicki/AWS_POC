@@ -10,9 +10,9 @@ build_tf_container:
     before_script:
         - docker login registry.gitlab.com -u mateusz.lewicki -p 9YS9pwVMNNdEkz2kmx71
     script: 
-        - docker build -t registry.example.com/private/AWS_POC/terraform .
-        - docker push registry.example.com/private/AWS_POC/terraform
+        - docker build -t registry.example.com/private/aws_poc/terraform .
+        - docker push registry.example.com/private/aws_poc/terraform
 job:
     stage: validate
-    image: registry.example.com/private/AWS_POC/terraform:latest
+    image: registry.example.com/private/aws_poc/terraform:latest
     script: terraform validate ./Terraform
