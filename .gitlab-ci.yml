@@ -1,5 +1,5 @@
 variables:
-    BUILD_TF_IMG: 'true'
+    BUILD_TF_IMG: 'false'
 stages:
     - build
     - validate
@@ -19,5 +19,9 @@ build_tf_container:
             - $BUILD_TF_IMG=='true'
 job:
     stage: validate
+        before_script:
+            - cd ./Terraform
+            - terraform init
     image: registry.gitlab.com/mateusz.lewicki/aws_poc/terraform:latest
-    script: terraform validate ./Terraform
+    script: 
+        - terraform validate
