@@ -1,6 +1,5 @@
 stages:
     - validate
-job:
-    stage: validate
+validate:
     image: hashicorp/terraform
     command: terraform validate Terraform
