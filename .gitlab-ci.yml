@@ -8,8 +8,7 @@ build_tf_container:
     services:
         - docker:dind
     before_script:
-        - docker login registry.gitlab.com 
-        #-u -p 9YS9pwVMNNdEkz2kmx71
+        - docker login registry.gitlab.com -u mateusz.lewicki -p 9YS9pwVMNNdEkz2kmx71
     script: 
         - docker build -t registry.example.com/private/AWS_POC/terraform .
         - docker push registry.example.com/private/AWS_POC/terraform
