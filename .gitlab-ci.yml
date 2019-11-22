@@ -1,6 +1,8 @@
 stages:
     - build
     - validate
+variables:
+  DOCKER_TLS_CERTDIR: ""
 
 build_tf_container:
     stage: build
