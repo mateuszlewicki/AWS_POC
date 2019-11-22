@@ -14,7 +14,9 @@ build_tf_container:
     script: 
         - docker build -t registry.gitlab.com/mateusz.lewicki/aws_poc/terraform .
         - docker push registry.gitlab.com/mateusz.lewicki/aws_poc/terraform
-    only: $BUILD_TF_IMG==true
+    only: 
+        variables:
+            - $BUILD_TF_IMG=='true'
 job:
     stage: validate
     image: registry.gitlab.com/mateusz.lewicki/aws_poc/terraform:latest
