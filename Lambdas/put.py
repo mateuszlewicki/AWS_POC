@@ -7,7 +7,7 @@ def lambda_handler(event, context):
     return checkSystem(event["system"])=="MTT"?noSQL_MTT(event):noSQL_Website(event)
 
 def checkSystem(invokedSystem):
-    return invokedSystem=="MTT"?"MTT":"Legacy"
+    return invokedSystem=="MTT"?"MTT":"Website"
 
 def noSQL_MTT(event):
     dynamodb = boto3.resource('dynamodb', region_name='TODO', endpoint_url="TODO")
