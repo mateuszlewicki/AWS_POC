@@ -4,12 +4,12 @@ import boto3, json, psycopg2, datetime
 # UPDATE VALUES
 
 def lambda_handler(event, context):
-    return checkSystem(event["system"])=="MTT"?noSQL(event):useSQL(event)
+    return checkSystem(event["system"])=="MTT"?noSQL_MTT(event):noSQL_Website(event)
 
 def checkSystem(invokedSystem):
     return invokedSystem=="MTT"?"MTT":"Legacy"
 
-def noSQL(event):
+def noSQL_MTT(event):
     dynamodb = boto3.resource('dynamodb', region_name='TODO', endpoint_url="TODO")
     table = dynamodb.Table('packages')
 
@@ -38,6 +38,6 @@ def noSQL(event):
         return(HTTPStatus.OK.value)
 
 
-def SQL(event):
+def noSQL_Website(event):
     #TODO
     
