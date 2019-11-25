@@ -1,0 +1,21 @@
+{
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{env `AWS_AKEY`}}",
+      "secret_key": "{{env `AWS_SKEY`}}",
+      "region": "us-east-1",
+      "source_ami": "ami-0c9e7070ba2856f49",
+      "instance_type": "t2.micro",
+      "ssh_username": "nomad-worker",
+      "ami_name": "nomad-worker-{{timestamp}}",
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "ansible",
+      "script": "../Ansible/worker_img.yml"
+    }
+  ]
+  
+}
