@@ -14,7 +14,7 @@
   "provisioners": [
     {
       "type": "ansible",
-      "script": "../Ansible/worker_img.yml"
+      "script": "../Ansible/worker_cfg.yml"
     }
   ]
   
