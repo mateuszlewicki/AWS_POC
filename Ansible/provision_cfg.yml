@@ -1,0 +1,61 @@
+---
+- hosts: 127.0.0.1
+  vars:
+    NOMAD_VERSION : "0.10.1"
+  tasks:
+    - name: install curl
+        yum:
+            name: curl
+            state: latest
+        become: yes
+
+    - name: install unzip
+        yum:
+            name: unzip
+            state: latest
+        become: yes
+
+    - name: download nomad
+        shell: curl --silent --remote-name https://releases.hashicorp.com/nomad/{{NOMAD_VERSION}}/nomad_{{NOMAD_VERSION}}_linux_amd64.zip
+
+    - name: unzip nomad
+        shell: unzip nomad_{{NOMAD_VERSION}}_linux_amd64.zip
+    
+    - name: change owner & move to bin
+        copy:
+            src: ./nomad
+            dest: /usr/local/bin/nomad
+            owner: root
+            group: root
+        become: yes
+    
+    - name: make nomad data dir
+      file:
+        path: /opt/nomad
+        state: directory
+
+    - name: make nomad service file 
+      template:
+        src: ./nomad_service.j2
+        dest: /etc/systemd/system/nomad.service
+      vars: 
+        type: "server"
+      become: yes
+
+    - name: make nomad conf dir
+      file:
+        path: /etc/nomad.d
+        state: directory
+        mode: '0700'
+
+    - name: make nomad config file 
+      template:
+        src: ./nomad.hcl.j2
+        dest: /etc/nomad.d/nomad.hcl
+      become: yes
+
+    - name: enable & start nomad
+      systemd:
+        name: nomad
+        state: started
+        enabled: yes

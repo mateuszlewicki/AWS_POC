@@ -2,7 +2,6 @@
 - hosts: 127.0.0.1
   vars:
     NOMAD_VERSION : "0.10.1"
-    type: "client"
   tasks:
     - name: install curl
         yum:
