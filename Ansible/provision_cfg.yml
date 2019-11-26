@@ -1,8 +1,23 @@
 ---
 - hosts: 127.0.0.1
   vars:
+    GO_PATH: "/usr/local/go/bin"
+    APPS:
+        vault:
+            name: vault
+            version: "1.3.0"
+        consul:
+            name: consul
+            version: "1.6.2"
+        nomad:
+            name: nomad
+            version: "0.10.1"
+
     NOMAD_VERSION: "0.10.1"
     CONSUL_VERSION: "1.6.2"
+    VAULT_VERSION: "1.3.0"
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{GO_PATH}}"
   tasks:
     - name: install needed tools
       block:
@@ -17,8 +32,62 @@
                 name: unzip
                 state: latest
             become: yes
+        - name: download golang
+            shell: curl --silent --remote-name https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz
+        - name: untar golang
+            unarchive:
+                src: go1.13.4.linux-amd64.tar.gz
+                dest: /usr/local
+                remote_src: yes
+        - name: update bashrc
+            shell: echo "{{ ansible_env.PATH }}:{{GO_PATH}}" >> /etc/environment 
+            become: yes
+
     - name: install & configure vault
       block:
+        - name: download vault
+              shell: curl --silent --remote-name https://releases.hashicorp.com/vault/{{VAULT_VERSION}}/consul_{{VAULT_VERSION}}_linux_amd64.zip
+
+        - name: unzip vault
+            shell: unzip nomad_{{VAULT_VERSION}}_linux_amd64.zip
+        
+        - name: change owner & move to bin
+            copy:
+                src: ./vault
+                dest: /usr/local/bin/vault
+                owner: root
+                group: root
+            become: yes
+        - name: make vault data dir
+            file:
+                path: /opt/vault
+                state: directory
+
+        - name: make vault service file 
+            template:
+                src: ./vault_service.j2
+                dest: /etc/systemd/system/consul.service
+            vars: 
+                type: "server"
+            become: yes
+
+        - name: make vault conf dir
+            file:
+                path: /etc/vault.d
+                state: directory
+                mode: '0700'
+
+        - name: make vault config file 
+            template:
+                src: ./vault.hcl.j2
+                dest: /etc/vault.d/vault.hcl
+            become: yes
+
+        - name: enable & start vault
+            systemd:
+                name: vault
+                state: started
+                enabled: yes
     - name: install & configure consul
       block:
         - name: download consul
@@ -64,9 +133,19 @@
                 name: consul
                 state: started
                 enabled: yes
-
     - name: install & configure fabio
       block:
+          - name: build fabio by Golang
+                shell: go get github.com/fabiolb/fabio 
+          - name: make fabio service file 
+                template:
+                    src: ./fabio_service.j2
+                    dest: /etc/systemd/system/fabio.service
+          - name: enable & start consul
+                systemd:
+                    name: fabio
+                    state: started
+                    enabled: yes
     - name: install & configure nomad
       block:
         - name: download nomad
