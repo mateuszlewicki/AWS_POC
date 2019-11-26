@@ -10,7 +10,7 @@ def checkSystem(invokedSystem):
     return invokedSystem=="MTT"?"MTT":"Website"
 
 def noSQL_MTT(event):
-    dynamodb = boto3.resource('dynamodb', region_name='TODO', endpoint_url="TODO")
+    dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('packages')
 
     try:
