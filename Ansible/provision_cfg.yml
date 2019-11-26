@@ -1,15 +1,10 @@
 ---
 - hosts: 127.0.0.1
   vars:
-    NOMAD_VERSION : "0.10.1"
+    NOMAD_VERSION: "0.10.1"
+    CONSUL_VERSION: "1.6.2"
   tasks:
-    - name: install & configure vault
-      block:
-    - name: install & configure consul
-      block:
-    - name: install & configure fabio
-      block:
-    - name: install & configure nomad
+    - name: install needed tools
       block:
         - name: install curl
             yum:
@@ -22,7 +17,58 @@
                 name: unzip
                 state: latest
             become: yes
+    - name: install & configure vault
+      block:
+    - name: install & configure consul
+      block:
+        - name: download consul
+              shell: curl --silent --remote-name https://releases.hashicorp.com/consul/{{CONSUL_VERSION}}/consul_{{CONSUL_VERSION}}_linux_amd64.zip
 
+        - name: unzip consul
+            shell: unzip nomad_{{CONSUL_VERSION}}_linux_amd64.zip
+        
+        - name: change owner & move to bin
+            copy:
+                src: ./consul
+                dest: /usr/local/bin/consul
+                owner: root
+                group: root
+            become: yes
+        - name: make consul data dir
+            file:
+                path: /opt/consul
+                state: directory
+
+        - name: make consul service file 
+            template:
+                src: ./consul_service.j2
+                dest: /etc/systemd/system/consul.service
+            vars: 
+                type: "server"
+            become: yes
+
+        - name: make consul conf dir
+            file:
+                path: /etc/consul.d
+                state: directory
+                mode: '0700'
+
+        - name: make consul config file 
+            template:
+                src: ./consul.hcl.j2
+                dest: /etc/consul.d/consul.hcl
+            become: yes
+
+        - name: enable & start consul
+            systemd:
+                name: consul
+                state: started
+                enabled: yes
+
+    - name: install & configure fabio
+      block:
+    - name: install & configure nomad
+      block:
         - name: download nomad
             shell: curl --silent --remote-name https://releases.hashicorp.com/nomad/{{NOMAD_VERSION}}/nomad_{{NOMAD_VERSION}}_linux_amd64.zip
 
@@ -38,34 +84,34 @@
             become: yes
         
         - name: make nomad data dir
-        file:
-            path: /opt/nomad
-            state: directory
+            file:
+                path: /opt/nomad
+                state: directory
 
         - name: make nomad service file 
-        template:
-            src: ./nomad_service.j2
-            dest: /etc/systemd/system/nomad.service
-        vars: 
-            type: "server"
-        become: yes
+            template:
+                src: ./nomad_service.j2
+                dest: /etc/systemd/system/nomad.service
+            vars: 
+                type: "server"
+            become: yes
 
         - name: make nomad conf dir
-        file:
-            path: /etc/nomad.d
-            state: directory
-            mode: '0700'
+            file:
+                path: /etc/nomad.d
+                state: directory
+                mode: '0700'
 
         - name: make nomad config file 
-        template:
-            src: ./nomad.hcl.j2
-            dest: /etc/nomad.d/nomad.hcl
-        become: yes
+            template:
+                src: ./nomad.hcl.j2
+                dest: /etc/nomad.d/nomad.hcl
+            become: yes
 
         - name: enable & start nomad
-        systemd:
-            name: nomad
-            state: started
-            enabled: yes
+            systemd:
+                name: nomad
+                state: started
+                enabled: yes
 
     
