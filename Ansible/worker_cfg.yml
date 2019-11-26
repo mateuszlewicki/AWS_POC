@@ -2,6 +2,7 @@
 - hosts: 127.0.0.1
   vars:
     NOMAD_VERSION : "0.10.1"
+    type: "client"
   tasks:
     - name: install curl
         yum:
@@ -39,7 +40,7 @@
         src: ./nomad_service.j2
         dest: /etc/systemd/system/nomad.service
       vars: 
-        type: "worker"
+        type: "client"
       become: yes
 
     - name: make nomad conf dir
