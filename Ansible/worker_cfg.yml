@@ -35,7 +35,27 @@
         state: directory
 
     - name: make nomad service file 
+      template:
+        src: ./nomad_service.j2
+        dest: /etc/systemd/system/nomad.service
+      vars: 
+        type: "worker"
+      become: yes
 
+    - name: make nomad conf dir
+      file:
+        path: /etc/nomad.d
+        state: directory
+        mode: '0700'
 
-sudo mkdir --parents 
-sudo touch /etc/systemd/system/nomad.service
+    - name: make nomad config file 
+      template:
+        src: ./nomad.hcl.j2
+        dest: /etc/nomad.d/nomad.hcl
+      become: yes
+
+    - name: enable & start nomad
+      systemd:
+        name: nomad
+        state: started
+        enabled: yes
