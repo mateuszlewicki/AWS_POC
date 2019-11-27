@@ -9,6 +9,9 @@
       "instance_type": "t2.micro",
       "ssh_username": "nomad-worker",
       "ami_name": "nomad-worker-{{timestamp}}",
+      "tags": {
+        "Name": "Nomad-worker" // Tag used by terraform during instance creation
+      }
     }
   ],
   "provisioners": [
