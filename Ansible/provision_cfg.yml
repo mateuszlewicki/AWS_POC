@@ -137,6 +137,13 @@
       block:
           - name: build fabio by Golang
                 shell: go get github.com/fabiolb/fabio 
+          - name: change owner & move to bin
+                copy:
+                    src: ./go/bin/fabio
+                    dest: /usr/local/bin/fabio
+                    owner: root
+                    group: root
+                become: yes
           - name: make fabio service file 
                 template:
                     src: ./fabio_service.j2
