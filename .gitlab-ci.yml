@@ -2,6 +2,9 @@ variables:
     BUILD_TF_IMG: 'false'
     BUILD_PACKER_IMG: 'false'
     VALIDATE_TF: 'false'
+    BUILD_AMI: 'false'
+    DEPLOY_TF: 'false'
+
 stages:
     - build_img
     - build_ami
@@ -41,11 +44,18 @@ build_worker_image:
     stage: build_ami
     image: registry.gitlab.com/$DOCKER_USER/aws_poc/packer:latest
     script: packer build ./Packer/worker_img.json
+    only: 
+        variables:
+            - $BUILD_AMI=='true'   
+
 
 build_provision_image:
     stage: build_ami
     image: registry.gitlab.com/$DOCKER_USER/aws_poc/packer:latest
     script: packer build ./Packer/provision_img.json
+    only: 
+        variables:
+            - $BUILD_AMI=='true' 
 
 validate_terraform:
     stage: validate
@@ -58,3 +68,15 @@ validate_terraform:
     only: 
         variables:
             - $VALIDATE_TF=='true'
+
+deploy_terraform:
+    stage: validate
+    before_script:
+        - cd ./Terraform
+        - terraform init
+    image: registry.gitlab.com/$DOCKER_USER/aws_poc/terraform:latest
+    script: 
+        - terraform apply
+    only: 
+        variables:
+            - $DEPLOY_TF=='true'          
