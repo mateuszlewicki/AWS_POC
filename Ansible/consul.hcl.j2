@@ -1,0 +1,16 @@
+data_dir = "/opt/consul"
+
+{% if {{type}} is "server" %}
+server {
+  enabled          = true
+  bootstrap_expect = 2
+}
+{% else %}
+client {
+    enabled = true
+}
+{% endif %}
+
+
+
+
