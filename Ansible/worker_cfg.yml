@@ -3,7 +3,7 @@
   vars:
     NOMAD_VERSION : "0.10.1"
   tasks:
-    - name: install curl
+      - name: install curl
         yum:
             name: curl
             state: latest
@@ -14,6 +14,51 @@
             name: unzip
             state: latest
         become: yes
+      - name: install & configure consul
+      block:
+        - name: download consul
+              shell: curl --silent --remote-name https://releases.hashicorp.com/consul/{{CONSUL_VERSION}}/consul_{{CONSUL_VERSION}}_linux_amd64.zip
+
+        - name: unzip consul
+            shell: unzip nomad_{{CONSUL_VERSION}}_linux_amd64.zip
+        
+        - name: change owner & move to bin
+            copy:
+                src: ./consul
+                dest: /usr/local/bin/consul
+                owner: root
+                group: root
+            become: yes
+        - name: make consul data dir
+            file:
+                path: /opt/consul
+                state: directory
+
+        - name: make consul service file 
+            template:
+                src: ./consul_service.j2
+                dest: /etc/systemd/system/consul.service
+            vars: 
+                type: "server"
+            become: yes
+
+        - name: make consul conf dir
+            file:
+                path: /etc/consul.d
+                state: directory
+                mode: '0700'
+
+        - name: make consul config file 
+            template:
+                src: ./consul.hcl.j2
+                dest: /etc/consul.d/consul.hcl
+            become: yes
+
+        - name: enable & start consul
+            systemd:
+                name: consul
+                state: started
+                enabled: yes
 
     - name: download nomad
         shell: curl --silent --remote-name https://releases.hashicorp.com/nomad/{{NOMAD_VERSION}}/nomad_{{NOMAD_VERSION}}_linux_amd64.zip
