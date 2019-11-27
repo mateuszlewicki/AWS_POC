@@ -39,12 +39,12 @@ build_packer_container:
 
 build_worker_image:
     stage: build_ami
-    image: registry.gitlab.com/$DOCKER_USER/aws_poc/packer
+    image: registry.gitlab.com/$DOCKER_USER/aws_poc/packer:latest
     script: packer build ./Packer/worker_img.json
 
 build_provision_image:
     stage: build_ami
-    image: registry.gitlab.com/$DOCKER_USER/aws_poc/packer
+    image: registry.gitlab.com/$DOCKER_USER/aws_poc/packer:latest
     script: packer build ./Packer/provision_img.json
 
 validate_terraform:
