@@ -1,5 +1,6 @@
 ---
-- hosts: 127.0.0.1
+- hosts: localhost
+  connection: local
   vars:
     GO_PATH: "/usr/local/go/bin"
     APPS:

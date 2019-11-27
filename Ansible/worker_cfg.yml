@@ -1,5 +1,6 @@
 ---
-- hosts: 127.0.0.1
+- hosts: localhost
+  connection: local
   vars:
     NOMAD_VERSION : "0.10.1"
   tasks:
