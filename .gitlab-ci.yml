@@ -1,7 +1,7 @@
 variables:
     BUILD_TF_IMG: 'false'
     BUILD_PACKER_IMG: 'false'
-    VALIDATE_TF: 'false'
+    VALIDATE_TF: 'true'
     BUILD_AMI: 'false'
     DEPLOY_TF: 'false'
 
@@ -19,8 +19,8 @@ build_tf_container:
         - cd ./Terraform
         - docker login registry.gitlab.com -u $DOCKER_USER -p $DOCKER_KEY
     script: 
-        - docker build -t registry.gitlab.com/$DOCKER_USER/aws_poc/terraform .
-        - docker push registry.gitlab.com/$DOCKER_USER/aws_poc/terraform
+        - docker build -t registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform .
+        - docker push registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform
     only: 
         variables:
             - $BUILD_TF_IMG=='true'
@@ -32,17 +32,17 @@ build_packer_container:
         - docker:dind
     before_script:
         - cd ./Packer
-        - docker login registry.gitlab.com -u $DOCKER_USER -p $DOCKER_KEY
+        - docker login registry.gitlab.com -u $K8S_SECRET_DOCKER_USER -p $K8S_SECRET_DOCKER_KEY
     script: 
-        - docker build -t registry.gitlab.com/$DOCKER_USER/aws_poc/packer .
-        - docker push registry.gitlab.com/$DOCKER_USER/aws_poc/packer
+        - docker build -t registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer .
+        - docker push registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer
     only: 
         variables:
             - $BUILD_PACKER_IMG=='true'
 
 build_worker_image:
     stage: build_ami
-    image: registry.gitlab.com/$DOCKER_USER/aws_poc/packer:latest
+    image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
     script: packer build ./Packer/worker_img.json
     only: 
         variables:
@@ -51,7 +51,7 @@ build_worker_image:
 
 build_provision_image:
     stage: build_ami
-    image: registry.gitlab.com/$DOCKER_USER/aws_poc/packer:latest
+    image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
     script: packer build ./Packer/provision_img.json
     only: 
         variables:
@@ -62,7 +62,7 @@ validate_terraform:
     before_script:
         - cd ./Terraform
         - terraform init
-    image: registry.gitlab.com/$DOCKER_USER/aws_poc/terraform:latest
+    image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
     script: 
         - terraform validate
     only: 
@@ -74,7 +74,7 @@ deploy_terraform:
     before_script:
         - cd ./Terraform
         - terraform init
-    image: registry.gitlab.com/$DOCKER_USER/aws_poc/terraform:latest
+    image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
     script: 
         - terraform apply
     only: 
