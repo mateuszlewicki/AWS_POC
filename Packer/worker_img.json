@@ -10,7 +10,7 @@
       "ssh_username": "nomad-worker",
       "ami_name": "nomad-worker-{{timestamp}}",
       "tags": {
-        "Name": "Nomad-worker" // Tag used by terraform during instance creation
+        "Name": "Nomad-worker" 
       }
     }
   ],

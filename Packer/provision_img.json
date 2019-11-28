@@ -10,7 +10,7 @@
       "ssh_username": "master",
       "ami_name": "Provision-cluster-{{timestamp}}",
             "tags": {
-        "Name": "Provision-cluster" // Tag used by terraform during instance creation
+        "Name": "Provision-cluster" 
       }
     }
   ],
