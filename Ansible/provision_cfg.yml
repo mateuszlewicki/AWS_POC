@@ -84,7 +84,6 @@
             - name: enable & start vault
               systemd:
                   name: vault
-                  state: started
                   enabled: yes
       - name: install & configure consul
         block:
