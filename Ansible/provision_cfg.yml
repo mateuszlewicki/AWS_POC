@@ -20,28 +20,28 @@
       PATH: "{{ ansible_env.PATH }}:{{GO_PATH}}"
   tasks:
       - name: install needed tools
-            block:
-                - name: install curl
-                      yum:
-                          name: curl
-                          state: latest
-                      become: yes
+        block:
+            - name: install curl
+                  yum:
+                      name: curl
+                      state: latest
+                  become: yes
 
-                - name: install unzip
-                      yum:
-                          name: unzip
-                          state: latest
-                      become: yes
-                - name: download golang
-                      shell: curl --silent --remote-name https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz
-                - name: untar golang
-                      unarchive:
-                          src: go1.13.4.linux-amd64.tar.gz
-                          dest: /usr/local
-                          remote_src: yes
-                - name: update bashrc
-                      shell: echo "{{ ansible_env.PATH }}:{{GO_PATH}}" >> /etc/environment 
-                      become: yes
+            - name: install unzip
+                  yum:
+                      name: unzip
+                      state: latest
+                  become: yes
+            - name: download golang
+                  shell: curl --silent --remote-name https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz
+            - name: untar golang
+                  unarchive:
+                      src: go1.13.4.linux-amd64.tar.gz
+                      dest: /usr/local
+                      remote_src: yes
+            - name: update bashrc
+                  shell: echo "{{ ansible_env.PATH }}:{{GO_PATH}}" >> /etc/environment 
+                  become: yes
 
       - name: install & configure vault
         block:
