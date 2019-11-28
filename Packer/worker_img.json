@@ -21,7 +21,7 @@
   "provisioners": [
     {
       "type": "ansible",
-      "playbook_file": "../Ansible/worker_cfg.yml"
+      "playbook_file": "./Ansible/worker_cfg.yml"
     }
   ]
   
