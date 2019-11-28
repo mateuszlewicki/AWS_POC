@@ -16,8 +16,6 @@
       NOMAD_VERSION: "0.10.1"
       CONSUL_VERSION: "1.6.2"
       VAULT_VERSION: "1.3.0"
-  environment:
-      PATH: "{{ ansible_env.PATH }}:{{GO_PATH}}"
   tasks:
       - name: install needed tools
         block:
@@ -138,7 +136,9 @@
       - name: install & configure fabio
         block:
             - name: build fabio by Golang
-                  shell: go get github.com/fabiolb/fabio 
+                  shell: go get github.com/fabiolb/fabio
+                  environment:
+                      PATH: "{{ ansible_env.PATH }}:{{GO_PATH}}"
             - name: change owner & move to bin
                   copy:
                       src: ./go/bin/fabio
