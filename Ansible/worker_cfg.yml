@@ -26,7 +26,7 @@
               shell: curl --silent --remote-name https://releases.hashicorp.com/consul/{{CONSUL_VERSION}}/consul_{{CONSUL_VERSION}}_linux_amd64.zip
 
             - name: unzip consul
-              shell: unzip nomad_{{CONSUL_VERSION}}_linux_amd64.zip
+              shell: unzip consul_{{CONSUL_VERSION}}_linux_amd64.zip
         
             - name: change owner & move to bin
               copy:

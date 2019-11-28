@@ -47,7 +47,7 @@
               shell: curl --silent --remote-name https://releases.hashicorp.com/vault/{{VAULT_VERSION}}/consul_{{VAULT_VERSION}}_linux_amd64.zip
   
             - name: unzip vault
-              shell: unzip nomad_{{VAULT_VERSION}}_linux_amd64.zip
+              shell: unzip vault_{{VAULT_VERSION}}_linux_amd64.zip
             
             - name: change owner & move to bin
               copy:
@@ -92,7 +92,7 @@
               shell: curl --silent --remote-name https://releases.hashicorp.com/consul/{{CONSUL_VERSION}}/consul_{{CONSUL_VERSION}}_linux_amd64.zip
 
             - name: unzip consul
-              shell: unzip nomad_{{CONSUL_VERSION}}_linux_amd64.zip
+              shell: unzip consul_{{CONSUL_VERSION}}_linux_amd64.zip
         
             - name: change owner & move to bin
               copy:
