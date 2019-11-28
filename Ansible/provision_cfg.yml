@@ -30,11 +30,7 @@
                   name: unzip
                   state: latest
               become: yes
-            - name: install gtar
-              yum:
-                  name: gtar
-                  state: latest
-              become: yes
+              
             - name: download golang
               shell: curl --silent --remote-name https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz
             
