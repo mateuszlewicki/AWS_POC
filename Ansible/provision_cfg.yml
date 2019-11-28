@@ -63,7 +63,7 @@
     
             - name: make vault service file 
               template:
-                  src: vault_service.j2
+                  src: vault.service.j2
                   dest: /etc/systemd/system/consul.service
               vars: 
                   type: "server"
@@ -108,7 +108,7 @@
 
             - name: make consul service file 
               template:
-                  src: consul_service.j2
+                  src: consul.service.j2
                   dest: /etc/systemd/system/consul.service
               vars: 
                   type: "server"
@@ -148,7 +148,7 @@
               become: yes
             - name: make fabio service file 
               template:
-                  src: fabio_service.j2
+                  src: fabio.service.j2
                   dest: /etc/systemd/system/fabio.service
             - name: enable & start consul
               systemd:
@@ -178,7 +178,7 @@
 
             - name: make nomad service file 
               template:
-                  src: nomad_service.j2
+                  src: nomad.service.j2
                   dest: /etc/systemd/system/nomad.service
               vars: 
                   type: "server"
