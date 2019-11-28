@@ -64,7 +64,7 @@
             - name: make vault service file 
               template:
                   src: vault.service.j2
-                  dest: /etc/systemd/system/vault.service
+                  dest: /etc/init.d/vault.service
               vars: 
                   type: "server"
               become: yes
