@@ -1,6 +1,6 @@
 variables:
     BUILD_TF_IMG: 'false'
-    BUILD_PACKER_IMG: 'false'
+    BUILD_PACKER_IMG: 'true'
     VALIDATE_TF: 'false'
     BUILD_AMI: 'false'
     DEPLOY_TF: 'false'
