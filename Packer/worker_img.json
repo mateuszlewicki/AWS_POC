@@ -11,7 +11,7 @@
       "region": "us-east-1",
       "source_ami": "ami-0c9e7070ba2856f49",
       "instance_type": "t2.micro",
-      "ssh_username": "nomad-worker",
+      "ssh_username": "ec2-user",
       "ami_name": "nomad-worker-{{timestamp}}",
       "tags": {
         "Name": "Nomad-worker" 
