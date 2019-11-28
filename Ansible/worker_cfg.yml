@@ -15,6 +15,11 @@
             name: unzip
             state: latest
         become: yes
+      - name: install gtar
+        yum:
+            name: gtar
+            state: latest
+        become: yes
       - name: install & configure consul
         block:
             - name: download consul
