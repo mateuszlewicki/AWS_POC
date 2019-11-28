@@ -44,7 +44,7 @@
       - name: install & configure vault
         block:
             - name: download vault
-              shell: curl --silent --remote-name https://releases.hashicorp.com/vault/{{VAULT_VERSION}}/consul_{{VAULT_VERSION}}_linux_amd64.zip
+              shell: curl --silent --remote-name https://releases.hashicorp.com/vault/{{VAULT_VERSION}}/vault_{{VAULT_VERSION}}_linux_amd64.zip
   
             - name: unzip vault
               shell: unzip vault_{{VAULT_VERSION}}_linux_amd64.zip
