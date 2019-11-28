@@ -3,6 +3,7 @@
   connection: local
   vars:
       NOMAD_VERSION : "0.10.1"
+      CONSUL_VERSION: "1.6.2"
   tasks:
       - name: install curl
         yum:
