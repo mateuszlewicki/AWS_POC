@@ -2,7 +2,7 @@
 - hosts: localhost
   connection: local
   vars:
-    NOMAD_VERSION : "0.10.1"
+      NOMAD_VERSION : "0.10.1"
   tasks:
       - name: install curl
         yum:
