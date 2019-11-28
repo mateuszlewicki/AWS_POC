@@ -82,8 +82,9 @@
               become: yes
     
             - name: enable & start vault
-              systemd:
+              service:
                   name: vault
+                  state: started
                   enabled: yes
       - name: install & configure consul
         block:
@@ -128,7 +129,7 @@
                   type: "server"
 
             - name: enable & start consul
-              systemd:
+              service:
                   name: consul
                   state: started
                   enabled: yes
@@ -150,7 +151,7 @@
                   src: fabio.service.j2
                   dest: /etc/systemd/system/fabio.service
             - name: enable & start consul
-              systemd:
+              service:
                   name: fabio
                   state: started
                   enabled: yes
@@ -196,7 +197,7 @@
               become: yes
 
             - name: enable & start nomad
-              systemd:
+              service:
                   name: nomad
                   state: started
                   enabled: yes
