@@ -15,11 +15,7 @@
             name: unzip
             state: latest
         become: yes
-      - name: install gtar
-        yum:
-            name: gtar
-            state: latest
-        become: yes
+
       - name: install & configure consul
         block:
             - name: download consul
@@ -42,7 +38,7 @@
 
             - name: make consul service file 
               template:
-                  src: ./consul_service.j2
+                  src: ./Ansible/consul_service.j2
                   dest: /etc/systemd/system/consul.service
               vars: 
                   type: "server"
@@ -56,7 +52,7 @@
 
             - name: make consul config file 
               template:
-                  src: ./consul.hcl.j2
+                  src: ./Ansible/consul.hcl.j2
                   dest: /etc/consul.d/consul.hcl
               become: yes
               vars: 
@@ -89,7 +85,7 @@
 
       - name: make nomad service file 
         template:
-            src: ./nomad_service.j2
+            src: ./Ansible/nomad_service.j2
             dest: /etc/systemd/system/nomad.service
         vars: 
             type: "client"
@@ -103,7 +99,7 @@
 
       - name: make nomad config file 
         template:
-            src: ./nomad.hcl.j2
+            src: ./Ansible/nomad.hcl.j2
             dest: /etc/nomad.d/nomad.hcl
         become: yes
 
