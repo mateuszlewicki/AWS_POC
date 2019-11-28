@@ -39,10 +39,8 @@
               shell: curl --silent --remote-name https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz
             
             - name: untar golang
-              unarchive:
-                  src: go1.13.4.linux-amd64.tar.gz
-                  dest: /usr/local
-                  remote_src: yes
+              shell: tar -xzf go1.13.4.linux-amd64.tar.gz -C /usr/local/
+
             - name: update bashrc
               shell: echo "{{ ansible_env.PATH }}:{{GO_PATH}}" >> /etc/environment 
               become: yes
