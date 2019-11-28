@@ -40,7 +40,7 @@
             
             - name: untar golang
               shell: tar -xzf go1.13.4.linux-amd64.tar.gz -C /usr/local/
-
+              
             - name: update bashrc
               shell: echo "{{ ansible_env.PATH }}:{{GO_PATH}}" >> /etc/environment 
               become: yes
