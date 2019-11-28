@@ -22,7 +22,7 @@
   "provisioners": [
     {
       "type": "ansible",
-      "script": "../Ansible/provision_cfg.yml"
+      "playbook_file": "../Ansible/provision_cfg.yml"
     }
   ]
   
