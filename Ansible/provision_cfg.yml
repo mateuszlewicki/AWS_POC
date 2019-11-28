@@ -65,6 +65,7 @@
               template:
                   src: vault.service.j2
                   dest: /etc/init.d/vault
+                  mode: '0755'
               vars: 
                   type: "server"
               become: yes
@@ -79,6 +80,7 @@
               template:
                   src: vault.hcl.j2
                   dest: /etc/vault.d/vault.hcl
+                  mode: '0755'
               become: yes
     
             - name: enable & start vault
@@ -111,6 +113,7 @@
               template:
                   src: consul.service.j2
                   dest: /etc/init.d/consul
+                  mode: '0755'
               vars: 
                   type: "server"
               become: yes
@@ -125,6 +128,7 @@
               template:
                   src: consul.hcl.j2
                   dest: /etc/consul.d/consul.hcl
+                  mode: '0755'
               become: yes
               vars: 
                   type: "server"
@@ -152,6 +156,7 @@
               template:
                   src: fabio.service.j2
                   dest: /etc/init.d/fabio
+                  mode: '0755'
             - name: enable & start consul
               service:
                   name: fabio
@@ -183,6 +188,7 @@
               template:
                   src: nomad.service.j2
                   dest: /etc/init.d/nomad
+                  mode: '0755'
               vars: 
                   type: "server"
               become: yes
@@ -197,6 +203,7 @@
               template:
                   src: nomad.hcl.j2
                   dest: /etc/nomad.d/nomad.hcl
+                  mode: '0755'
               become: yes
 
             - name: enable & start nomad
