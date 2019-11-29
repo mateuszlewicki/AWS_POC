@@ -26,7 +26,7 @@
     },
     {
       "type": "shell",
-      "execute_command":"sudo systemctl enable vault && sudo systemctl enable consul && sudo systemctl enable fabio &&  sudo systemctl enable nomad"
+      "inline":["sudo systemctl enable vault && sudo systemctl enable consul && sudo systemctl enable fabio &&  sudo systemctl enable nomad"]
     }
   ]
   
