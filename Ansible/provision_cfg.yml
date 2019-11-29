@@ -127,13 +127,12 @@
               become: yes
       - name: install & configure fabio
         block:
-            - name: build fabio by Golang
-              shell: go get github.com/fabiolb/fabio
-              environment:
-                  PATH: "{{ ansible_env.PATH }}:{{GO_PATH}}"
+            - name: download fabio
+              shell: curl --silent --remote-name https://github.com/fabiolb/fabio/releases/download/v1.5.13/fabio-1.5.13-go1.13.4-linux_amd64
+       
             - name: change owner & move to bin
               copy:
-                  src: "{{ansible_env.GOPATH}}/bin/fabio"
+                  src: ./fabio-1.5.13-go1.13.4-linux_amd64
                   dest: /usr/local/bin/fabio
                   owner: root
                   group: root
