@@ -178,16 +178,14 @@
                   dest: /etc/nomad.d/nomad.hcl
                   mode: '0755'
               become: yes
-      - name: make Shell directory
-        file:
-            path: Shell
-            state: directory
-      - name: make bootstrap script
-        copy:
-            src: /builds/mateusz.lewicki/aws_poc/.git/Shell/provision_services.sh
-            dest: Shell/provision_services.sh
-            mode: '0755'
-      - name: execute
-        shell: Shell/provision_services.sh
-        become: yes
+
+      - name: enable services
+        systemd:
+            name: "{{ item }}"
+            enabled: yes
+        loop:
+            - vault
+            - consul
+            - fabio
+            - nomad
   
