@@ -1,6 +1,6 @@
 data_dir = "/opt/nomad"
 
-{% if {{type}} is "server" %}
+{% if type is "server" %}
 server {
   enabled          = true
   bootstrap_expect = 2
