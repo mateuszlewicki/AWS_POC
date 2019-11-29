@@ -85,7 +85,7 @@
     
             - name: enable & start vault
               systemd:
-                  name: vault
+                  name: vault.service
                   enabled: yes
               become: yes
       - name: install & configure consul
