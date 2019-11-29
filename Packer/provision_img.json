@@ -21,6 +21,17 @@
   ],
   "provisioners": [
     {
+
+      "type": "shell",
+      "inline": [
+        "sleep 10",
+        "uname -a",
+        "sudo yum install -y python"
+
+      ]
+
+    },
+    {
       "type": "ansible",
       "playbook_file": "./Ansible/provision_cfg.yml"
     }
