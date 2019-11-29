@@ -4,6 +4,25 @@
     "aws_access_key": "{{env `K8S_SECRET_AWS_AKEY`}}",
     "aws_secret_key": "{{env `K8S_SECRET_AWS_SKEY`}}"
   },
+  "provisioners": [
+    {
+
+      "type": "shell",
+      "inline": [
+        "sleep 10",
+        "uname -a",
+        "sudo yum install -y python",
+      ]
+
+    },
+    {
+      "type": "ansible",
+      "playbook_file": "./Ansible/provision_cfg.yml",
+      "extra_arguments": [
+                "--extra-vars", "ansible_user=ec2-user"
+      ]
+    }
+  ],
   "builders": [
     {
       "type": "amazon-ebs",
@@ -17,26 +36,6 @@
             "tags": {
         "Name": "Provision-cluster" 
       }
-    }
-  ],
-  "provisioners": [
-    {
-
-      "type": "shell",
-      "inline": [
-        "sleep 10",
-        "uname -a",
-        "sudo yum install -y python",
-        "sudo yum install -y cowsay"
-      ]
-
-    },
-    {
-      "type": "ansible",
-      "playbook_file": "./Ansible/provision_cfg.yml",
-      "extra_arguments": [
-                "--extra-vars", "ansible_user=ec2-user"
-      ]
     }
   ]
   
