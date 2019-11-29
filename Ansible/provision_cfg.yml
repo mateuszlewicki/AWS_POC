@@ -64,7 +64,7 @@
             - name: make vault service file 
               template:
                   src: vault.service.j2
-                  dest: /etc/init.d/vault
+                  dest: /usr/lib/sysmtemd/system/vault.service
                   mode: '0755'
               vars: 
                   type: "server"
@@ -84,9 +84,8 @@
               become: yes
     
             - name: enable & start vault
-              service:
+              systemd:
                   name: vault
-                  
                   enabled: yes
               become: yes
       - name: install & configure consul
