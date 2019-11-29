@@ -16,7 +16,7 @@
 
     },
     {
-      "type": "ansible",
+      "type": "ansible-local",
       "playbook_file": "./Ansible/provision_cfg.yml",
       "extra_arguments": [
                 "--extra-vars", "ansible_user=ec2-user"
