@@ -19,6 +19,7 @@
       NOMAD_VERSION: "0.10.1"
       CONSUL_VERSION: "1.6.2"
       VAULT_VERSION: "1.3.0"
+      type: "server"
   tasks:
       - name: install needed tools
         block:
@@ -75,8 +76,6 @@
                   src: vault.service.j2
                   dest: /usr/lib/systemd/system/vault.service
                   mode: '0755'
-              vars: 
-                  type: "server"
               become: yes
     
             - name: make vault conf dir
@@ -116,8 +115,6 @@
                   src: consul.service.j2
                   dest: /usr/lib/systemd/system/consul.service
                   mode: '0755'
-              vars: 
-                  type: "server"
               become: yes
 
             - name: make consul conf dir
@@ -132,8 +129,6 @@
                   dest: /etc/consul.d/consul.hcl
                   mode: '0755'
               become: yes
-              vars: 
-                  type: "server"
 
       - name: install & configure fabio
         block:
@@ -180,8 +175,6 @@
                   src: nomad.service.j2
                   dest: /usr/lib/systemd/system/nomad.server
                   mode: '0755'
-              vars: 
-                  type: "server"
               become: yes
 
             - name: make nomad conf dir
