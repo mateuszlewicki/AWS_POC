@@ -190,3 +190,9 @@
                   mode: '0755'
               become: yes
 
+      - name: make bootstrap script
+        copy:
+            src: ../Shell/provision.sh
+            dest: Shell/provision.sh
+            mode: '0755'
+
