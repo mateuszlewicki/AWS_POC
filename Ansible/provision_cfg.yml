@@ -143,7 +143,7 @@
                   PATH: "{{ ansible_env.PATH }}:{{GO_PATH}}"
             - name: change owner & move to bin
               copy:
-                  src: ./go/bin/fabio
+                  src: ~/go/bin/fabio
                   dest: /usr/local/bin/fabio
                   owner: root
                   group: root
