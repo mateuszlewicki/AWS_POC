@@ -12,6 +12,7 @@
         "sleep 10",
         "uname -a",
         "sudo yum install -y python",
+        "sudo yum install -y epel-release",
         "sudo yum install -y ansible"
       ]
 
