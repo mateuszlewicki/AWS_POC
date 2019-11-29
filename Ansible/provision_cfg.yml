@@ -65,6 +65,7 @@
                   dest: /usr/local/bin/vault
                   owner: root
                   group: root
+                  mode: '0755'
               become: yes
             - name: make vault data dir
               file:
@@ -103,6 +104,7 @@
                   dest: /usr/local/bin/consul
                   owner: root
                   group: root
+                  mode: '0755'
               become: yes
             - name: make consul data dir
               file:
@@ -128,7 +130,7 @@
       - name: install & configure fabio
         block:
             - name: download fabio
-              shell: curl --silent --remote-name https://github.com/fabiolb/fabio/releases/download/v1.5.13/fabio-1.5.13-go1.13.4-linux_amd64
+              shell: curl --silent -L --remote-name https://github.com/fabiolb/fabio/releases/download/v1.5.13/fabio-1.5.13-go1.13.4-linux_amd64
        
             - name: change owner & move to bin
               copy:
@@ -136,6 +138,7 @@
                   dest: /usr/local/bin/fabio
                   owner: root
                   group: root
+                  mode: '0755'
               become: yes
             - name: make fabio service file 
               template:
@@ -155,6 +158,7 @@
                   dest: /usr/local/bin/nomad
                   owner: root
                   group: root
+                  mode: '0755'
               become: yes
         
             - name: make nomad data dir

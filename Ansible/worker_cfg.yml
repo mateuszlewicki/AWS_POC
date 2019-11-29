@@ -28,6 +28,7 @@
                   dest: /usr/local/bin/consul
                   owner: root
                   group: root
+                  mode: '0755'
               become: yes
             - name: make consul data dir
               file:
@@ -60,6 +61,7 @@
             dest: /usr/local/bin/nomad
             owner: root
             group: root
+            mode: '0755'
         become: yes
     
       - name: make nomad data dir
@@ -84,16 +86,12 @@
             src: nomad.hcl.j2
             dest: /etc/nomad.d/nomad.hcl
         become: yes
-      - name: make Shell directory
-        file:
-            path: Shell
-            state: directory
-      - name: make bootstrap script
-        copy:
-            src: ../Shell/worker_services.sh
-            dest: Shell/worker_services.sh
-            mode: '0755'
-      - name: execute
-        shell: Shell/worker_services.sh
-        become: yes
+
+      - name: enable services
+        systemd:
+            name: "{{ item }}"
+            enabled: yes
+        loop:
+            - consul
+            - nomad
   
