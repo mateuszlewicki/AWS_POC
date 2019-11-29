@@ -75,7 +75,7 @@
               template:
                   src: vault.service.j2
                   dest: /usr/lib/systemd/system/vault.service
-                  mode: '0755'
+                  mode: '0644'
               become: yes
     
             - name: make vault conf dir
@@ -114,7 +114,7 @@
               template:
                   src: consul.service.j2
                   dest: /usr/lib/systemd/system/consul.service
-                  mode: '0755'
+                  mode: '0644'
               become: yes
 
             - name: make consul conf dir
@@ -147,7 +147,7 @@
               template:
                   src: fabio.service.j2
                   dest: /usr/lib/systemd/system/fabio.service
-                  mode: '0755'
+                  mode: '0644'
 
       - name: install & configure nomad
         block:
@@ -173,8 +173,8 @@
             - name: make nomad service file 
               template:
                   src: nomad.service.j2
-                  dest: /usr/lib/systemd/system/nomad.server
-                  mode: '0755'
+                  dest: /usr/lib/systemd/system/nomad.service
+                  mode: '0644'
               become: yes
 
             - name: make nomad conf dir

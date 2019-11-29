@@ -22,10 +22,6 @@
     {
       "type": "ansible",
       "playbook_file": "./Ansible/worker_cfg.yml"
-    },
-    {
-      "type": "shell",
-      "script": "Shell/worker_services.sh"
     }
     
   ]

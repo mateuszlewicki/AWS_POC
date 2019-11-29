@@ -1,2 +1,3 @@
 #!/bin/bash
-sudo systemctl enable consul && sudo systemctl enable nomad
+systemctl enable consul 
+systemctl enable nomad

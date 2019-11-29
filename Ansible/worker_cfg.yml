@@ -60,13 +60,6 @@
               vars: 
                   type: "client"
 
-            - name: enable & start consul
-              service:
-                  name: consul
-                  state: started
-                  enabled: yes
-              become: yes
-
       - name: download nomad
         shell: curl --silent --remote-name https://releases.hashicorp.com/nomad/{{NOMAD_VERSION}}/nomad_{{NOMAD_VERSION}}_linux_amd64.zip
 
@@ -107,9 +100,16 @@
             dest: /etc/nomad.d/nomad.hcl
         become: yes
 
-      - name: enable & start nomad
-        service:
-            name: nomad
-            state: started
-            enabled: yes
+      - name: make Shell directory
+        file:
+            path: Shell
+            state: directory
+
+      - name: make bootstrap script
+        copy:
+            src: ../Shell/worker_services.sh
+            dest: Shell/worker_services.sh
+            mode: '0755'
+      - name: execute
+        shell: Shell/worker_services.sh
         become: yes
