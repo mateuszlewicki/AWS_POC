@@ -134,7 +134,7 @@
             - name: build fabio by Golang
               shell: go get github.com/fabiolb/fabio
               environment:
-                  PATH: "{{ ansible_env.PATH }}:{{GO_PATH}}"
+                  PATH: "{{ ansible_env.PATH }}:/usr/local/go/bin"
             - name: change owner & move to bin
               copy:
                   src: ./go/bin/fabio
