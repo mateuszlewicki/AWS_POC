@@ -1,6 +1,9 @@
 ---
 - hosts: localhost
   connection: local
+  become: true
+  become_method: sudo
+  become_user: root
   vars:
       GO_PATH: "/usr/local/go/bin"
       APPS:
