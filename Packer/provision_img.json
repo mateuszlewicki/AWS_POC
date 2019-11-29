@@ -25,9 +25,8 @@
       "playbook_file": "./Ansible/provision_cfg.yml"
     },
     {
-      "type": "shell",
-      "binary": "true",
-      "inline":["sudo systemctl enable vault && sudo systemctl enable consul && sudo systemctl enable fabio &&  sudo systemctl enable nomad"]
+      "type": "shell-local",
+      "Script": "Shell/provision_services.sh"
     }
   ]
   
