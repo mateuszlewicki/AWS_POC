@@ -41,6 +41,7 @@
               template:
                   src: consul.service.j2
                   dest: /usr/lib/systemd/system/consul.service
+                  mode: '755'
               vars: 
                   type: "server"
               become: yes
@@ -89,6 +90,7 @@
         template:
             src: nomad.service.j2
             dest: /usr/lib/systemd/system/nomad.service
+            mode: '755'
         vars: 
             type: "client"
         become: yes
