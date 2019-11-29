@@ -25,7 +25,7 @@
     },
     {
       "type": "shell",
-      "script": "./Packer/worker_services.sh"
+      "script": "worker_services.sh"
     }
     
   ]
