@@ -26,14 +26,16 @@
       "inline": [
         "sleep 10",
         "uname -a",
-        "sudo yum install -y python",
-        "ssh-add -l"
+        "sudo yum install -y python"
       ]
 
     },
     {
       "type": "ansible",
-      "playbook_file": "./Ansible/provision_cfg.yml"
+      "playbook_file": "./Ansible/provision_cfg.yml",
+      "extra_arguments": [
+                "--extra-vars", "ansible_user=ec2-user"
+      ]
     }
   ]
   
