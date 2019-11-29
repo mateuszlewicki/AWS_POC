@@ -23,14 +23,6 @@
     {
       "type": "ansible",
       "playbook_file": "./Ansible/provision_cfg.yml"
-    },
-    {
-      "type": "shell-local",
-      "inline": ["chmod 777 Shell/provision_services.sh"]
-    },
-    {
-      "type": "shell",
-      "script": "Shell/provision_services.sh"
     }
   ]
   
