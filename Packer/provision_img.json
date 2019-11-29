@@ -11,14 +11,14 @@
       "inline": [
         "sleep 10",
         "uname -a",
-        "sudo yum install -y python",
         "sudo amazon-linux-extras install ansible2"
       ]
 
     },
     {
       "type": "ansible-local",
-      "playbook_file": "./Ansible/provision_cfg.yml",
+      "playbook_dir": "./Ansible",
+      "playbook_file": "provision_cfg.yml",
       "extra_arguments": [
                 "--extra-vars", "ansible_user=ec2-user"
       ]
