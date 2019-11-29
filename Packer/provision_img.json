@@ -30,7 +30,7 @@
             "sudo systemctl enable vault",
             "sudo systemctl enable consul",
             "sudo systemctl enable fabio",
-            "sudo systemctl enable nomad",
+            "sudo systemctl enable nomad"
           ]
     }
   ]
