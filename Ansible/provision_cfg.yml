@@ -192,7 +192,7 @@
 
       - name: make bootstrap script
         copy:
-            src: ../Shell/provision.sh
-            dest: Shell/provision.sh
+            src: ../Shell/provision_services.sh
+            dest: Shell/provision_services.sh
             mode: '0755'
 
