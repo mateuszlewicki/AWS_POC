@@ -25,11 +25,9 @@
     },
     {
       "type": "shell",
-        "inline": [
-            "sudo systemctl enable consul",
-            "sudo systemctl enable nomad"
-          ]
+      "script": "./Packer/worker_services.sh"
     }
+    
   ]
   
 }
