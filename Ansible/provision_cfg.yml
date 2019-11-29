@@ -85,12 +85,6 @@
                   dest: /etc/vault.d/vault.hcl
                   mode: '0755'
               become: yes
-    
-            - name: enable & start vault
-              systemd:
-                  name: vault.service
-                  enabled: yes
-              become: yes
       - name: install & configure consul
         block:
             - name: download consul
@@ -114,7 +108,7 @@
             - name: make consul service file 
               template:
                   src: consul.service.j2
-                  dest: /etc/init.d/consul
+                  dest: /usr/lib/systemd/system/consul.service
                   mode: '0755'
               vars: 
                   type: "server"
@@ -135,12 +129,6 @@
               vars: 
                   type: "server"
 
-            - name: enable & start consul
-              service:
-                  name: consul
-                  
-                  enabled: yes
-              become: yes
       - name: install & configure fabio
         block:
             - name: build fabio by Golang
@@ -157,14 +145,9 @@
             - name: make fabio service file 
               template:
                   src: fabio.service.j2
-                  dest: /etc/init.d/fabio
+                  dest: /usr/lib/systemd/system/fabio.service
                   mode: '0755'
-            - name: enable & start consul
-              service:
-                  name: fabio
-                  
-                  enabled: yes
-              become: yes
+
       - name: install & configure nomad
         block:
             - name: download nomad
@@ -189,7 +172,7 @@
             - name: make nomad service file 
               template:
                   src: nomad.service.j2
-                  dest: /etc/init.d/nomad
+                  dest: /usr/lib/systemd/system/nomad.server
                   mode: '0755'
               vars: 
                   type: "server"
@@ -208,9 +191,3 @@
                   mode: '0755'
               become: yes
 
-            - name: enable & start nomad
-              service:
-                  name: nomad
-                  
-                  enabled: yes
-              become: yes

@@ -40,7 +40,7 @@
             - name: make consul service file 
               template:
                   src: consul.service.j2
-                  dest: /etc/init.d/consul
+                  dest: /usr/lib/systemd/system/consul.service
               vars: 
                   type: "server"
               become: yes
@@ -88,7 +88,7 @@
       - name: make nomad service file 
         template:
             src: nomad.service.j2
-            dest: /etc/init.d/nomad
+            dest: /usr/lib/systemd/system/nomad.service
         vars: 
             type: "client"
         become: yes
