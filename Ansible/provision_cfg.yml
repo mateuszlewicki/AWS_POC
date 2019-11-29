@@ -133,7 +133,7 @@
                   PATH: "{{ ansible_env.PATH }}:{{GO_PATH}}"
             - name: change owner & move to bin
               copy:
-                  src: {{ansible_env.HOME}}/go/bin/fabio
+                  src: "{{ansible_env.HOME}}/go/bin/fabio"
                   dest: /usr/local/bin/fabio
                   owner: root
                   group: root
@@ -185,7 +185,7 @@
             state: directory
       - name: make bootstrap script
         copy:
-            src: ../Shell/provision_services.sh
+            src: /builds/mateusz.lewicki/aws_poc/.git/Shell/provision_services.sh
             dest: Shell/provision_services.sh
             mode: '0755'
       - name: execute
