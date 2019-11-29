@@ -1,14 +1,9 @@
 data_dir = "/opt/consul"
-
 {% if type == "server" %}
-server {
-  enabled          = true
+  server          = true
   bootstrap_expect = 2
-}
 {% else %}
-client {
-    enabled = true
-}
+client = true
 {% endif %}
 
 
