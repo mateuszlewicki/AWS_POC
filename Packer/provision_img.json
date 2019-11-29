@@ -26,7 +26,7 @@
     },
     {
       "type": "shell",
-      "remote_folder": "./",
+      "binary": "true",
       "inline":["sudo systemctl enable vault && sudo systemctl enable consul && sudo systemctl enable fabio &&  sudo systemctl enable nomad"]
     }
   ]
