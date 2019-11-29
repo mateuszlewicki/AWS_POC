@@ -190,6 +190,11 @@
                   mode: '0755'
               become: yes
 
+      - name: make Shell directory
+        file:
+            path: Shell
+            state: directory
+
       - name: make bootstrap script
         copy:
             src: ../Shell/provision_services.sh
