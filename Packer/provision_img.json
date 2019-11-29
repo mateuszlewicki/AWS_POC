@@ -26,7 +26,7 @@
     },
     {
       "type": "shell",
-      "script": "provision_services.sh"
+      "script": "Shell/provision_services.sh"
     }
   ]
   

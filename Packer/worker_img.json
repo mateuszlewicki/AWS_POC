@@ -25,7 +25,7 @@
     },
     {
       "type": "shell",
-      "script": "worker_services.sh"
+      "script": "Shell/worker_services.sh"
     }
     
   ]
