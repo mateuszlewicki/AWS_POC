@@ -202,4 +202,5 @@
             mode: '0755'
       - name: execute
         shell: Shell/provision_services.sh
+        become: yes
 

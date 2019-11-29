@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo systemctl enable vault && sudo systemctl enable consul && sudo systemctl enable fabio &&  sudo systemctl enable nomad
+systemctl enable vault && systemctl enable consul && systemctl enable fabio && systemctl enable nomad
