@@ -45,8 +45,12 @@
               shell: tar -xzf go1.13.4.linux-amd64.tar.gz -C /usr/local/
               
             - name: update env
-              shell: echo "{{ansible_env.PATH}}:{{GO_PATH}}" >> /etc/environment 
+              shell: echo "{{ansible_env.PATH}}:{{GO_PATH}}" >> /etc/environment
               become: yes
+
+            - name: update gopath
+              shell: export GOPATH=$HOME/go
+
       - name: install & configure vault
         block:
             - name: download vault
@@ -129,7 +133,7 @@
                   PATH: "{{ ansible_env.PATH }}:{{GO_PATH}}"
             - name: change owner & move to bin
               copy:
-                  src: ~/go/bin/fabio
+                  src: {{ansible_env.GOPATH}}/bin/fabio
                   dest: /usr/local/bin/fabio
                   owner: root
                   group: root
