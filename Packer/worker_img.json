@@ -2,7 +2,25 @@
     "variables": {
     "aws_access_key": "{{env `K8S_SECRET_AWS_AKEY`}}",
     "aws_secret_key": "{{env `K8S_SECRET_AWS_SKEY`}}"
-  },
+  },    "provisioners": [ {
+
+      "type": "shell",
+      "inline": [
+        "sleep 10",
+        "uname -a",
+        "sudo amazon-linux-extras install ansible2"
+      ]
+
+    },
+    {
+      "type": "ansible-local",
+      "playbook_dir": "./Ansible",
+      "playbook_file": "./Ansible/provision_cfg.yml",
+      "extra_arguments": [
+                "--extra-vars", "ansible_user=ec2-user"
+      ]
+    }
+  ],
   "builders": [
     {
       "type": "amazon-ebs",
@@ -17,13 +35,6 @@
         "Name": "Nomad-worker" 
       }
     }
-  ],
-  "provisioners": [
-    {
-      "type": "ansible",
-      "playbook_file": "./Ansible/worker_cfg.yml"
-    }
-    
   ]
   
 }
