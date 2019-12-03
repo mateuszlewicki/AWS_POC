@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from graphene import ObjectType, String, Schema
+import graphene 
+from graphql import GraphQLError
 import boto3, json, psycopg2
 
 class Query(ObjectType):
@@ -23,4 +24,43 @@ class Query(ObjectType):
             Payload=self.data
         )
 
-schema = Schema(query=Query)
+def graphqlHandler(eventRequestBody, context = {}):
+
+  try:
+    requestBody = json.loads(eventRequestBody)
+  except:
+    requestBody = {}
+  query = ''
+  variables = {}
+  if ('query' in requestBody):
+    query = requestBody['query']
+  if ('variables' in requestBody):
+    variables = requestBody['variables']
+    # schema = Schema(query=Query)
+
+  executionResult = schema.execute(query=Query, variables=variables)
+
+  responseBody = {
+    "data": dict(executionResult.data) if executionResult.data != None else None,
+  }
+  if (executionResult.errors != None):
+    responseBody['errors'] = []
+    for error in executionResult.errors:
+      responseBody['errors'].append(str(error))
+  return responseBody
+
+def lambda_handler(event, context):
+  httpMethod = event.get('httpMethod')
+  if (httpMethod == 'OPTIONS'):
+    return {
+      'statusCode': 200,
+      'headers': responseHeaders,
+      'body': ''
+    }
+  requestBody = event.get('body')
+  responseBody = graphqlHandler(requestBody, context)
+  return {
+    'statusCode': 200,
+    'headers': responseHeaders,
+    'body': json.dumps(responseBody)
+  }
