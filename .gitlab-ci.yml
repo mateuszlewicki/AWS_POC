@@ -2,7 +2,7 @@ variables:
     BUILD_TF_IMG: 'false'
     BUILD_PACKER_IMG: 'false'
     VALIDATE_TF: 'false'
-    BUILD_AMI: 'true'
+    BUILD_AMI: 'false'
     DEPLOY_TF: 'false'
 
 stages:

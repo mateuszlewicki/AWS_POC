@@ -123,8 +123,8 @@
                   mode: '0700'
             - name: make consul config file 
               template:
-                  src: consul.hcl.j2
-                  dest: /etc/consul.d/consul.hcl
+                  src: consul.json.j2
+                  dest: /etc/consul.d/consul.json
                   mode: '0755'
               become: yes
       - name: install & configure fabio
