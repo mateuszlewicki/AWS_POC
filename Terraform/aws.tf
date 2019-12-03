@@ -4,7 +4,6 @@ provider "aws" {
   region  = "us-east-1"
 }
 
-
 # Create a VPC to launch our instances into
 resource "aws_vpc" "default" {
   cidr_block = "10.0.0.0/16"
@@ -106,7 +105,7 @@ resource "aws_elb" "poc_web" {
 
   subnets         = ["${aws_subnet.default.id}"]
   security_groups = ["${aws_security_group.elb.id}"]
-  instances       = ["${aws_instance.machine_provision_1.id}","${aws_instance.machine_provision_2.id}"]
+  instances       = ["${aws_instance.machine_provision_1.id}","${aws_instance.machine_provision_2.id}","${aws_instance.machine_provision_3.id}"]
 
   listener {
     instance_port     = 9999
@@ -136,6 +135,22 @@ resource "aws_key_pair" "auth" {
 
 # MACHINES
 
+data "aws_ami" "provision_ami" {
+  executable_users = ["self"]
+  most_recent      = true
+  name_regex       = "^Provision-cluster-*"
+  owners           = ["self"]
+}
+
+data "aws_ami" "worker_ami" {
+  executable_users = ["self"]
+  most_recent      = true
+  name_regex       = "^nomad-worker-*"
+  owners           = ["self"]
+}
+
+
+
 ## NOMAD-CONSUL-VAULT-FABIO
 resource "aws_instance" "machine_provision_1"{
  
@@ -145,13 +160,17 @@ resource "aws_instance" "machine_provision_1"{
 
   instance_type = "t2.micro"
 
-  ami = "${lookup(var.aws_amis, var.aws_region)}"
+  ami = "${data.aws_ami.provision_ami.id}"
 
   key_name = "${aws_key_pair.auth.id}"
 
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
 
   subnet_id = "${aws_subnet.default.id}"
+
+  tags = {
+    Type = "Quorum"
+  }
 }
 
 resource "aws_instance" "machine_provision_2"{
@@ -162,14 +181,40 @@ resource "aws_instance" "machine_provision_2"{
 
   instance_type = "t2.micro"
 
-  ami = "${lookup(var.aws_amis, var.aws_region)}"
+  ami = "${data.aws_ami.provision_ami.id}"
 
   key_name = "${aws_key_pair.auth.id}"
 
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
 
   subnet_id = "${aws_subnet.default.id}"
+
+  tags = {
+    Type = "Quorum"
+  }
 }
+
+resource "aws_instance" "machine_provision_3"{
+
+  connection {
+    user = "ec2-user"
+  }
+
+  instance_type = "t2.micro"
+
+  ami = "${data.aws_ami.provision_ami.id}"
+
+  key_name = "${aws_key_pair.auth.id}"
+
+  vpc_security_group_ids = ["${aws_security_group.default.id}"]
+
+  subnet_id = "${aws_subnet.default.id}"
+
+  tags = {
+    Type = "Quorum"
+  }
+}
+
 
 
 
@@ -183,7 +228,7 @@ resource "aws_instance" "machine_worker_1"{
 
   instance_type = "t2.micro"
 
-  ami = "${lookup(var.aws_amis, var.aws_region)}"
+  ami = "${data.aws_ami.worker_ami.id}"
 
   key_name = "${aws_key_pair.auth.id}"
 
@@ -200,7 +245,7 @@ resource "aws_instance" "machine_worker_2"{
 
   instance_type = "t2.micro"
 
-  ami = "${lookup(var.aws_amis, var.aws_region)}"
+  ami = "${data.aws_ami.worker_ami.id}"
 
   key_name = "${aws_key_pair.auth.id}"
 
@@ -217,7 +262,7 @@ resource "aws_instance" "machine_worker_3"{
 
   instance_type = "t2.micro"
 
-  ami = "${lookup(var.aws_amis, var.aws_region)}"
+  ami = "${data.aws_ami.worker_ami.id}"
 
   key_name = "${aws_key_pair.auth.id}"
 
@@ -238,13 +283,37 @@ resource "aws_lambda_function" "sender"{}
 
 ## DB INTERACTION ##
 
-resource "aws_lambda_function" "get"{}
+resource "aws_lambda_function" "get"{
+  filename= "../Lambdas/Packages/get.zip"
+  function_name="aws_poc_get"
+  role=
+  handler="get.lambda_handler"
+  runtime= "python3.8"
+}
 
-resource "aws_lambda_function" "post"{}
+resource "aws_lambda_function" "post"{
+  filename= "../Lambdas/Packages/post.zip"
+  function_name="aws_poc_post"
+  role=
+  handler="post.lambda_handler"
+  runtime= "python3.8"
+}
 
-resource "aws_lambda_function" "put"{}
+resource "aws_lambda_function" "put"{
+  filename= "../Lambdas/Packages/put.zip"
+  function_name="aws_poc_put"
+  role=
+  handler="put.lambda_handler"
+  runtime= "python3.8"
+}
 
-resource "aws_lambda_function" "delete"{}
+resource "aws_lambda_function" "delete"{
+  filename= "../Lambdas/Packages/del.zip"
+  function_name="aws_poc_del"
+  role=
+  handler="delete.lambda_handler"
+  runtime= "python3.8"
+}
 
 
 # SES - Simple Email Service

@@ -11,13 +11,13 @@ class Query(ObjectType):
     def resolve_action(root, info, action):
         client = boto3.client('lambda')
         functions = {
-            GET : "HANDLER"
-            POST : "HANDLER"
-            PUT : "HANDLER"
-            DELETE : "HANDLER"
+            GET : "aws_poc_get"
+            POST : "aws_poc_post"
+            PUT : "aws_poc_put"
+            DELETE : "aws_poc_del"
         }
         return client.invoke(
-            FunctionName=functions.get(action,"nothing"),
+            FunctionName=functions.get(action.upper(),"nothing"),
             InvocationType='RequestResponse',
             LogType='None',
             Payload=self.data
