@@ -1,0 +1,9 @@
+mat-drawer-container{
+    height: 100%;
+
+}
+
+mat-drawer {
+    background: linear-gradient(rgba(6, 4, 98, 0.64), #141415);
+    width: 12%;
+}

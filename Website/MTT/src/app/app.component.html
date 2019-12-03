@@ -1,0 +1,12 @@
+<mat-drawer-container class="example-container">
+  <mat-drawer #drawer class="example-sidenav" mode="side" >
+    <app-menu (MTT_event)="onClick_S_MTT()"></app-menu>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+      <app-header (someEvent)="drawer.toggle()"></app-header>
+    <!-- <button (click)="onClick_S_MTT()">Show track&trace</button> -->
+<app-tracktrace *ngIf="show_MTT" ></app-tracktrace>
+  </div>
+
+</mat-drawer-container>
