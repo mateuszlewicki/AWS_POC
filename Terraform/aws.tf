@@ -30,7 +30,7 @@ resource "aws_subnet" "default" {
 
 # A security group for the ELB so it is accessible via the web
 resource "aws_security_group" "elb" {
-  name        = "terraform_example_elb"
+  name        = "mateusz-lewicki-awspoc-elb"
   description = "Used in the terraform"
   vpc_id      = "${aws_vpc.default.id}"
 
@@ -365,4 +365,28 @@ resource "aws_api_gateway_integration" "integration" {
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = "${aws_lambda_function.handler.invoke_arn}"
+}
+
+resource "aws_s3_bucket" "tfstate" {
+  bucket = "mlewicki-tfstate-atos.net"
+  acl    = "private"
+
+  tags = {
+    Name        = "mlewicki-atos-tfstate"
+  }
+}
+
+resource "aws_s3_bucket" "b" {
+  bucket = "mlewicki-website-atos.net"
+  acl    = "public-read"
+  policy = "${file("policy.json")}"
+
+  website {
+    index_document = "index.html"
+    error_document = "error.html"
+  }
+
+   tags = {
+    Name = "mlewicki-atos-website"
+  }
 }
