@@ -163,7 +163,7 @@ deploy_terraform_bucket:
         - terraform init
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
     script: 
-        - terraform apply
+        - terraform apply -var "my-access-key=$K8S_SECRET_AWS_AKEY" -var "my-secret-key=$K8S_SECRET_AWS_SKEY"
     only: 
         variables:
             - $DEPLOY_TF=='true'     
@@ -187,7 +187,7 @@ deploy_terraform_full_arch:
         - terraform init
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
     script: 
-        - terraform apply
+        - terraform apply -var "my-access-key=$K8S_SECRET_AWS_AKEY" -var "my-secret-key=$K8S_SECRET_AWS_SKEY"
     only: 
         variables:
             - $DEPLOY_TF=='true'     
