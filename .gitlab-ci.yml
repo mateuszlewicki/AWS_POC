@@ -1,14 +1,20 @@
 variables:
-    BUILD_TF_IMG: 'false'
-    BUILD_PACKER_IMG: 'false'
-    VALIDATE_TF: 'false'
-    BUILD_AMI: 'false'
-    DEPLOY_TF: 'false'
+    BUILD_TF_IMG: 'true'
+    BUILD_ANGULAR_IMG: 'true'
+    BUILD_PACKER_IMG: 'true'
+    VALIDATE_TF: 'true'
+    BUILD_AMI: 'true'
+    BUILD_WEBSITE: 'true'
+    DEPLOY_TF: 'true'
 
 stages:
     - build_img
     - build_ami
+    - build_website
+    - build_lambdas
+    - tBackend
     - validate
+    - deploy
     
 build_tf_container:
     stage: build_img
@@ -25,6 +31,20 @@ build_tf_container:
         variables:
             - $BUILD_TF_IMG=='true'
 
+build_angular_container:
+    stage: build_img
+    image: docker
+    services:
+        - docker:dind
+    before_script:
+        - cd ./Website
+        - docker login registry.gitlab.com -u $K8S_SECRET_DOCKER_USER -p $K8S_SECRET_DOCKER_KEY
+    script: 
+        - docker build -t registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/angular .
+        - docker push registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/angular
+    only: 
+        variables:
+            - $BUILD_ANGULAR_IMG=='true'
 build_packer_container:
     stage: build_img
     image: docker
@@ -57,10 +77,11 @@ build_provision_image:
         variables:
             - $BUILD_AMI=='true' 
 
-validate_terraform:
-    stage: validate
+
+validate_terraform_bucket:
+    stage: tBackend
     before_script:
-        - cd ./Terraform
+        - cd ./Terraform/Bucket
         - terraform init
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
     script: 
@@ -69,14 +90,54 @@ validate_terraform:
         variables:
             - $VALIDATE_TF=='true'
 
-deploy_terraform:
-    stage: validate
+deploy_terraform_bucket:
+    stage: tBackend
     before_script:
-        - cd ./Terraform
+        - cd ./Terraform/Bucket
         - terraform init
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
     script: 
         - terraform apply
     only: 
         variables:
-            - $DEPLOY_TF=='true'          
+            - $DEPLOY_TF=='true'     
+
+validate_terraform_full_arch:
+    stage: validate
+    before_script:
+        - cd ./Terraform/Arch
+        - terraform init
+    image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
+    script: 
+        - terraform validate
+    only: 
+        variables:
+            - $VALIDATE_TF=='true'
+
+deploy_terraform_full_arch:
+    stage: deploy
+    before_script:
+        - cd ./Terraform/Arch
+        - terraform init
+    image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
+    script: 
+        - terraform apply
+    only: 
+        variables:
+            - $DEPLOY_TF=='true'     
+            
+            
+build_website:
+    stage: deploy
+    before_script:
+        - cd ./Website/MTT
+    image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/angular:latest
+    script: 
+        - ng build --prod
+    after_script:
+        - cd dist/MTT
+        - tar -cvf website.tar *
+        - aws s3 cp website.tar s3://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com
+    only: 
+        variables:
+            - $BUILD_WEBSITE=='true'

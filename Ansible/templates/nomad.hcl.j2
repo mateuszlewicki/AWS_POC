@@ -18,3 +18,8 @@ telemetry {
   publish_allocation_metrics = true
   publish_node_metrics = true
 }
+
+  host_volume "website" {
+    path      = "/opt/website/data"
+    read_only = false
+  }

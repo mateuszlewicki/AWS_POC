@@ -4,12 +4,12 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 export enum menu_elements { 
   MTT = "MTT_ADDR",
-  OFbiz = "_ADDR",
-  Consul = "_ADDR",
-  Fabio = "_ADDR",
-  Nomad = "_ADDR",
-  Prometheus = "_ADDR",
-  Grafana = "_ADDR"} ;
+  OFbiz = "/biz",
+  Consul = "/cosnul/ui",
+  Fabio = "/fabio",
+  Nomad = "/nomad",
+  Prometheus = "/prometheus",
+  Grafana = "/grafana"} ;
 
  
 

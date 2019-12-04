@@ -4,6 +4,16 @@ provider "aws" {
   region  = "us-east-1"
 }
 
+terraform {
+  backend "s3" {
+    bucket = "mlewicki-mybucket-atos.net"
+    key    = "/"
+    region = "us-east-1"
+  }
+}
+
+
+
 # Create a VPC to launch our instances into
 resource "aws_vpc" "default" {
   cidr_block = "10.0.0.0/16"
@@ -30,7 +40,7 @@ resource "aws_subnet" "default" {
 
 # A security group for the ELB so it is accessible via the web
 resource "aws_security_group" "elb" {
-  name        = "terraform_example_elb"
+  name        = "mateusz-lewicki-awspoc-elb"
   description = "Used in the terraform"
   vpc_id      = "${aws_vpc.default.id}"
 
@@ -171,6 +181,19 @@ resource "aws_instance" "machine_provision_1"{
   tags = {
     Type = "Quorum"
   }
+
+  provisioner "file" {
+    source      = "../../Nomad/"
+    destination = "/opt/nomad"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "cd /opt/nomad",
+      "for i in $(ls *.nomad); do nomad job run ${i}"
+    ]
+  }
+  
 }
 
 resource "aws_instance" "machine_provision_2"{
@@ -272,9 +295,27 @@ resource "aws_instance" "machine_worker_3"{
 }
 
 # LAMBDAS
-
+ resource "aws_iam_policy" "lambda_all" {
+   # ... other configuration ...
+   policy = <<POLICY
+ {
+   "Version": "2012-10-17",
+   "Statement": {
+     "Effect": "Allow",
+     "Action": "*",
+     "Resource": "*"
+   }
+ }
+ POLICY
+ }
 ## GRAPHQL ##
-resource "aws_lambda_function" "handler"{}
+resource "aws_lambda_function" "handler"{
+  filename= "../Lambdas/Packages/handler.zip"
+  function_name="aws_poc_handler"
+  role="${aws_iam_role.lambda_all.arn}"
+  handler="handler.lambda_handler"
+  runtime= "python3.8"
+}
 
 ## MAIL NOTIFY ##
 
@@ -286,7 +327,7 @@ resource "aws_lambda_function" "sender"{}
 resource "aws_lambda_function" "get"{
   filename= "../Lambdas/Packages/get.zip"
   function_name="aws_poc_get"
-  role=
+  role="${aws_iam_role.lambda_all.arn}"
   handler="get.lambda_handler"
   runtime= "python3.8"
 }
@@ -294,7 +335,7 @@ resource "aws_lambda_function" "get"{
 resource "aws_lambda_function" "post"{
   filename= "../Lambdas/Packages/post.zip"
   function_name="aws_poc_post"
-  role=
+  role="${aws_iam_role.lambda_all.arn}"
   handler="post.lambda_handler"
   runtime= "python3.8"
 }
@@ -302,7 +343,7 @@ resource "aws_lambda_function" "post"{
 resource "aws_lambda_function" "put"{
   filename= "../Lambdas/Packages/put.zip"
   function_name="aws_poc_put"
-  role=
+  role="${aws_iam_role.lambda_all.arn}"
   handler="put.lambda_handler"
   runtime= "python3.8"
 }
@@ -310,7 +351,7 @@ resource "aws_lambda_function" "put"{
 resource "aws_lambda_function" "delete"{
   filename= "../Lambdas/Packages/del.zip"
   function_name="aws_poc_del"
-  role=
+  role="${aws_iam_role.lambda_all.arn}"
   handler="delete.lambda_handler"
   runtime= "python3.8"
 }
@@ -322,4 +363,38 @@ resource "aws_lambda_function" "delete"{
 
 # API Endpoint
 
-resource "aws_api_gateway_rest_api" "graphQl_intake" {}
+resource "aws_api_gateway_stage" "graphQl_intake_stage" {
+  stage_name    = "prod"
+  rest_api_id   = "${aws_api_gateway_rest_api.graphQl_intake.id}"
+  deployment_id = "${aws_api_gateway_deployment.graphQl_intake.id}"
+}
+
+resource "aws_api_gateway_rest_api" "graphQl_intake" {
+  name        = "mlewicki-graphQl-intake"
+}
+
+
+resource "aws_api_gateway_resource" "resource" {
+  path_part   = "resource"
+  parent_id   = "${aws_api_gateway_rest_api.graphQl_intake.root_resource_id}"
+  rest_api_id = "${aws_api_gateway_rest_api.graphQl_intake.id}"
+}
+
+resource "aws_api_gateway_method" "method" {
+  rest_api_id   = "${aws_api_gateway_rest_api.graphQl_intake.id}"
+  resource_id   = "${aws_api_gateway_resource.resource.id}"
+  http_method   = "GET"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "integration" {
+  rest_api_id             = "${aws_api_gateway_rest_api.graphQl_intake.id}"
+  resource_id             = "${aws_api_gateway_resource.resource.id}"
+  http_method             = "${aws_api_gateway_method.method.http_method}"
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = "${aws_lambda_function.handler.invoke_arn}"
+}
+
+
+

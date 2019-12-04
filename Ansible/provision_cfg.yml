@@ -121,10 +121,39 @@
                   path: /etc/consul.d
                   state: directory
                   mode: '0700'
+                  
             - name: make consul config file 
               template:
                   src: consul.json.j2
                   dest: /etc/consul.d/consul.json
+                  mode: '0755'
+              become: yes
+
+            - name: register self configuration
+              template:
+                  src: consul.consul.j2
+                  dest: /etc/consul.d/self.json
+                  mode: '0755'
+              become: yes
+
+            - name: register fabio configuration
+              template:
+                  src: consul.fabio.j2
+                  dest: /etc/consul.d/fabio.json
+                  mode: '0755'
+              become: yes
+
+            - name: register nomad configuration
+              template:
+                  src: consul.nomad.j2
+                  dest: /etc/consul.d/nomad.json
+                  mode: '0755'
+              become: yes
+
+            - name: register api configuration
+              template:
+                  src: consul.graphQl.j2
+                  dest: /etc/consul.d/api.json
                   mode: '0755'
               become: yes
       - name: install & configure fabio

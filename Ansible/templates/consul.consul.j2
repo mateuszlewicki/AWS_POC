@@ -1,0 +1,15 @@
+{"service":
+  {"name": "consul",
+  "tags" : ["urlprefix-/consul"],
+   "port": 80,
+   "TaggedAddresses": {
+        "lan": {
+          "address": "127.0.0.1",
+          "port": 8500
+        },
+        "wan": {
+          "address": "127.0.0.1",
+          "port": 80
+        }
+    }
+}'
