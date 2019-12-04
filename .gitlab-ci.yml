@@ -1,18 +1,18 @@
 variables:
-    BUILD_TF_IMG: 'true'
-    BUILD_ANGULAR_IMG: 'true'
-    BUILD_PACKER_IMG: 'true'
+    BUILD_TF_IMG: 'fasle'
+    BUILD_ANGULAR_IMG: 'false'
+    BUILD_PACKER_IMG: 'fasle'
     VALIDATE_TF: 'true'
-    BUILD_AMI: 'true'
+    BUILD_AMI: 'false'
     BUILD_WEBSITE: 'true'
     DEPLOY_TF: 'true'
 
 stages:
     - build_img
     - build_ami
+    - tBackend
     - build_website
     - build_lambdas
-    - tBackend
     - validate
     - deploy
     
