@@ -1,7 +1,7 @@
 variables:
     BUILD_TF_IMG: 'fasle'
     BUILD_ANGULAR_IMG: 'false'
-    BUILD_PACKER_IMG: 'true'
+    BUILD_PACKER_IMG: 'false'
     VALIDATE_TF: 'true'
     BUILD_AMI: 'false'
     BUILD_WEBSITE: 'true'
@@ -90,7 +90,7 @@ build_getpy:
         - cd $OLDPWD
         - zip -g get.zip get.py
     after_script:
-        - aws s3 cp get.zip s3://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com
+        - aws s3 cp ./get.zip s3://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com
 build_delpy:
     stage: build_lambdas
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
@@ -103,7 +103,7 @@ build_delpy:
         - cd $OLDPWD
         - zip -g delete.zip delete.py
     after_script:
-        - aws s3 cp delete.zip s3://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com
+        - aws s3 cp ./delete.zip s3://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com
 build_postpy:
     stage: build_lambdas
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
@@ -116,7 +116,7 @@ build_postpy:
         - cd $OLDPWD
         - zip -g post.zip post.py
     after_script:
-        - aws s3 cp post.zip s3://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com
+        - aws s3 cp ./post.zip s3://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com
 build_putpy:
     stage: build_lambdas
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
@@ -129,7 +129,7 @@ build_putpy:
         - cd $OLDPWD
         - zip -g put.zip put.py
     after_script:
-        - aws s3 cp put.zip s3://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com
+        - aws s3 cp ./put.zip s3://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com
 build_handpy:
     stage: build_lambdas
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
@@ -140,7 +140,7 @@ build_handpy:
         - cd ./package
         - zip -r9 ${OLDPWD}/handler.zip .
         - cd $OLDPWD
-        - zip -g handler.zip handler.py
+        - zip -g ./handler.zip handler.py
     after_script:
         - aws s3 cp handler.zip s3://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com
 
