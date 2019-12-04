@@ -180,7 +180,7 @@ validate_terraform_full_arch:
         - terraform init
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
     script: 
-        - terraform validate
+        - terraform validate -var "my-access-key=$K8S_SECRET_AWS_AKEY" -var "my-secret-key=$K8S_SECRET_AWS_SKEY" -auto-approve
     only: 
         variables:
             - $VALIDATE_TF=='true'
@@ -208,7 +208,7 @@ build_website:
     after_script:
         - cd dist/MTT
         - tar -cvf website.tar *
-        - aws s3 cp website.tar s3://mlewicki-mybucket-atos.net
+        - aws s3 cp ./website.tar s3://mlewicki-mybucket-atos.net
     only: 
         variables:
             - $BUILD_WEBSITE=='true'
