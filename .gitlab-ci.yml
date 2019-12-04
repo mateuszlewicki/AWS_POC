@@ -180,7 +180,7 @@ validate_terraform_full_arch:
         - terraform init
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
     script: 
-        - terraform validate -var "my-access-key=$K8S_SECRET_AWS_AKEY" -var "my-secret-key=$K8S_SECRET_AWS_SKEY" -auto-approve
+        - terraform validate 
     only: 
         variables:
             - $VALIDATE_TF=='true'
