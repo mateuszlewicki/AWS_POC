@@ -1,11 +1,11 @@
 variables:
-    BUILD_TF_IMG: 'false'
-    BUILD_ANGULAR_IMG: 'false'
-    BUILD_PACKER_IMG: 'false'
-    VALIDATE_TF: 'false'
-    BUILD_AMI: 'false'
-    BUILD_WEBSITE: 'false'
-    DEPLOY_TF: 'false'
+    BUILD_TF_IMG: 'true'
+    BUILD_ANGULAR_IMG: 'true'
+    BUILD_PACKER_IMG: 'true'
+    VALIDATE_TF: 'true'
+    BUILD_AMI: 'true'
+    BUILD_WEBSITE: 'true'
+    DEPLOY_TF: 'true'
 
 stages:
     - build_img

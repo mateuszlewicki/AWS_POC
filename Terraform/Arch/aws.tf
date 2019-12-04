@@ -190,7 +190,7 @@ resource "aws_instance" "machine_provision_1"{
   provisioner "remote-exec" {
     inline = [
       "cd /opt/nomad",
-      "for i in $(ls *.nomad); do nomad run ${i}"
+      "for i in $(ls *.nomad); do nomad job run ${i}"
     ]
   }
   
