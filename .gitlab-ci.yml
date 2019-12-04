@@ -178,6 +178,8 @@ validate_terraform_full_arch:
     before_script:
         - cd ./Terraform/Arch
         - terraform init
+        - export AWS_ACCESS_KEY_ID=$K8S_SECRET_AWS_AKEY
+        - export AWS_SECRET_ACCESS_KEY=$K8S_SECRET_AWS_SKEY
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
     script: 
         - terraform validate 
