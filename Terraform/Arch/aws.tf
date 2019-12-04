@@ -350,8 +350,14 @@ resource "aws_lambda_function" "delete"{
 
 # API Endpoint
 
+resource "aws_api_gateway_stage" "graphQl_intake_stage" {
+  stage_name    = "prod"
+  rest_api_id   = "${aws_api_gateway_rest_api.graphQl_intake.id}"
+  deployment_id = "${aws_api_gateway_deployment.graphQl_intake.id}"
+}
+
 resource "aws_api_gateway_rest_api" "graphQl_intake" {
-  name        = "graphQl_intake"
+  name        = "mlewicki-graphQl-intake"
 }
 
 
