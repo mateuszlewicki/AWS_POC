@@ -69,7 +69,6 @@ build_worker_image:
         variables:
             - $BUILD_AMI=='true'   
 
-
 build_provision_image:
     stage: build_ami
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest

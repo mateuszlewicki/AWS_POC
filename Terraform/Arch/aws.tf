@@ -7,7 +7,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "mlewicki-mybucket-atos.net"
-    key    = "/"
+    key    = "arch"
     region = "us-east-1"
   }
 }
