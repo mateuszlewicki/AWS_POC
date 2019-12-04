@@ -3,6 +3,7 @@ MAINTAINER "Mateusz Lewicki Atos Polska Global Services mateusz.lewicki@atos.net
 
 RUN yum -y install wget
 RUN yum -y install unzip
+RUN yum -y install zip
 RUN yum -y install epel-release
 
 RUN yum -y install ansible

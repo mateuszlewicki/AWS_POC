@@ -1,11 +1,12 @@
 variables:
     BUILD_TF_IMG: 'fasle'
     BUILD_ANGULAR_IMG: 'false'
-    BUILD_PACKER_IMG: 'fasle'
+    BUILD_PACKER_IMG: 'true'
     VALIDATE_TF: 'true'
     BUILD_AMI: 'false'
     BUILD_WEBSITE: 'true'
     DEPLOY_TF: 'true'
+    DEPLOY_TF_BUCKET: 'false'
 
 stages:
     - build_img
@@ -154,7 +155,7 @@ validate_terraform_bucket:
         - terraform validate
     only: 
         variables:
-            - $VALIDATE_TF=='true'
+            - $DEPLOY_TF_BUCKET=='true'
 
 deploy_terraform_bucket:
     stage: tBackend
@@ -166,7 +167,7 @@ deploy_terraform_bucket:
         - terraform apply -var "my-access-key=$K8S_SECRET_AWS_AKEY" -var "my-secret-key=$K8S_SECRET_AWS_SKEY" -auto-approve
     only: 
         variables:
-            - $DEPLOY_TF=='true'     
+            - $DEPLOY_TF_BUCKET=='true'     
 
 validate_terraform_full_arch:
     stage: validate
