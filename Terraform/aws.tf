@@ -1,3 +1,5 @@
+variable "my-access-key" {}
+variable "my-secret-key" {}
 # Specify the provider and access details
 provider "aws" {
   #version = "~> 3.0"

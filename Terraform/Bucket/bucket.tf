@@ -1,3 +1,6 @@
+variable "my-access-key" {}
+variable "my-secret-key" {}
+
 provider "aws" {
   #version = "~> 3.0"
   region  = "us-east-1"
