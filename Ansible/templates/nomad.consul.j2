@@ -1,0 +1,15 @@
+{"service":
+  {"name": "nomad",
+  "tags" : ["urlprefix-/nomad"],
+   "port": 80,
+   "TaggedAddresses": {
+        "lan": {
+          "address": "127.0.0.1",
+          "port": 4646
+        },
+        "wan": {
+          "address": "127.0.0.1",
+          "port": 80
+        }
+    }
+}'
