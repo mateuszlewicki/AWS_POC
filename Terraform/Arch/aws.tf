@@ -1,15 +1,14 @@
-variable "my-access-key" {}
-variable "my-secret-key" {}
-
 terraform{
   backend "s3" {
     bucket = "mlewicki-mybucket-atos.net"
-    key    = "arch"
+    key    = "terraform.tfstate"
     region = "us-east-1"
-    access_key = var.my-access-key
-    secret_key = var.my-secret-key
   }
 }
+
+variable "my-access-key" {}
+variable "my-secret-key" {}
+
 
 # Specify the provider and access details
 provider "aws" {
