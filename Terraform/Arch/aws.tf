@@ -4,6 +4,16 @@ provider "aws" {
   region  = "us-east-1"
 }
 
+terraform {
+  backend "s3" {
+    bucket = "mlewicki-mybucket-atos.net"
+    key    = "/"
+    region = "us-east-1"
+  }
+}
+
+
+
 # Create a VPC to launch our instances into
 resource "aws_vpc" "default" {
   cidr_block = "10.0.0.0/16"
@@ -367,26 +377,5 @@ resource "aws_api_gateway_integration" "integration" {
   uri                     = "${aws_lambda_function.handler.invoke_arn}"
 }
 
-resource "aws_s3_bucket" "tfstate" {
-  bucket = "mlewicki-tfstate-atos.net"
-  acl    = "private"
 
-  tags = {
-    Name        = "mlewicki-atos-tfstate"
-  }
-}
 
-resource "aws_s3_bucket" "b" {
-  bucket = "mlewicki-website-atos.net"
-  acl    = "public-read"
-  policy = "${file("policy.json")}"
-
-  website {
-    index_document = "index.html"
-    error_document = "error.html"
-  }
-
-   tags = {
-    Name = "mlewicki-atos-website"
-  }
-}

@@ -94,4 +94,9 @@
         loop:
             - consul
             - nomad
+
+      - name: create /opt/website/data
+        file: 
+            path: /opt/website/data
+            state: directory
   

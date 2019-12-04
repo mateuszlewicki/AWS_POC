@@ -12,6 +12,7 @@ stages:
     - build_ami
     - build_website
     - build_lambdas
+    - tBackend
     - validate
     - deploy
     
@@ -77,11 +78,10 @@ build_provision_image:
             - $BUILD_AMI=='true' 
 
 
-
-validate_terraform:
-    stage: validate
+validate_terraform_bucket:
+    stage: tBackend
     before_script:
-        - cd ./Terraform
+        - cd ./Terraform/Bucket
         - terraform init
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
     script: 
@@ -90,10 +90,34 @@ validate_terraform:
         variables:
             - $VALIDATE_TF=='true'
 
-deploy_terraform:
+deploy_terraform_bucket:
+    stage: tBackend
+    before_script:
+        - cd ./Terraform/Bucket
+        - terraform init
+    image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
+    script: 
+        - terraform apply
+    only: 
+        variables:
+            - $DEPLOY_TF=='true'     
+
+validate_terraform_full_arch:
+    stage: validate
+    before_script:
+        - cd ./Terraform/Arch
+        - terraform init
+    image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
+    script: 
+        - terraform validate
+    only: 
+        variables:
+            - $VALIDATE_TF=='true'
+
+deploy_terraform_full_arch:
     stage: deploy
     before_script:
-        - cd ./Terraform
+        - cd ./Terraform/Arch
         - terraform init
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
     script: 
@@ -104,7 +128,7 @@ deploy_terraform:
             
             
 build_website:
-    stage: build_website
+    stage: deploy
     before_script:
         - cd ./Website/MTT
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/angular:latest
@@ -112,7 +136,8 @@ build_website:
         - ng build --prod
     after_script:
         - cd dist/MTT
-        - aws s3 sync . s3://mybucket --delete
+        - tar -cvf website.tar *
+        - aws s3 cp website.tar s3://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com
     only: 
         variables:
             - $BUILD_WEBSITE=='true'
