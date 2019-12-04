@@ -9,13 +9,14 @@ provider "aws" {
   secret_key = var.my-secret-key
 }
 
-terraform {
-  backend "s3" {
-    bucket = "mlewicki-mybucket-atos.net"
-    key    = "arch"
-    region = "us-east-1"
-  }
+
+backend "s3" {
+  bucket = "mlewicki-mybucket-atos.net"
+  key    = "arch"
+  region = "us-east-1"
+  
 }
+
 
 
 
