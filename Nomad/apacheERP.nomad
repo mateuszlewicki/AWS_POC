@@ -2,6 +2,10 @@ job "ApacheOFbiz" {
 task "ERP" {
   driver = "docker"
 
+
+env{
+    DB = "postgres"
+  }
   config {
     image = "opensourceknight/ofbiz"
     portmap{ http = 80 }

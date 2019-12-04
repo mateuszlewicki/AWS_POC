@@ -181,6 +181,19 @@ resource "aws_instance" "machine_provision_1"{
   tags = {
     Type = "Quorum"
   }
+
+  provisioner "file" {
+    source      = "../../Nomad/"
+    destination = "/opt/nomad"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "cd /opt/nomad",
+      "for i in $(ls *.nomad); do nomad run ${i}"
+    ]
+  }
+  
 }
 
 resource "aws_instance" "machine_provision_2"{
