@@ -15,7 +15,7 @@
     {
       "type": "ansible-local",
       "playbook_dir": "./Ansible",
-      "playbook_file": "./Ansible/provision_cfg.yml",
+      "playbook_file": "./Ansible/worker_cfg.yml",
       "extra_arguments": [
                 "--extra-vars", "ansible_user=ec2-user"
       ]

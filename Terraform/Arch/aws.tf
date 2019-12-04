@@ -310,7 +310,8 @@ resource "aws_instance" "machine_worker_3"{
  }
 ## GRAPHQL ##
 resource "aws_lambda_function" "handler"{
-  filename= "../Lambdas/Packages/handler.zip"
+  s3_bucket= "mlewicki-mybucket-atos.net"
+  s3_key = "handler.zip"
   function_name="aws_poc_handler"
   role="${aws_iam_role.lambda_all.arn}"
   handler="handler.lambda_handler"
@@ -325,7 +326,8 @@ resource "aws_lambda_function" "sender"{}
 ## DB INTERACTION ##
 
 resource "aws_lambda_function" "get"{
-  filename= "../Lambdas/Packages/get.zip"
+  s3_bucket= "mlewicki-mybucket-atos.net"
+  s3_key = "get.zip"
   function_name="aws_poc_get"
   role="${aws_iam_role.lambda_all.arn}"
   handler="get.lambda_handler"
@@ -333,7 +335,8 @@ resource "aws_lambda_function" "get"{
 }
 
 resource "aws_lambda_function" "post"{
-  filename= "../Lambdas/Packages/post.zip"
+  s3_bucket= "mlewicki-mybucket-atos.net"
+  s3_key = "post.zip"
   function_name="aws_poc_post"
   role="${aws_iam_role.lambda_all.arn}"
   handler="post.lambda_handler"
@@ -341,7 +344,8 @@ resource "aws_lambda_function" "post"{
 }
 
 resource "aws_lambda_function" "put"{
-  filename= "../Lambdas/Packages/put.zip"
+  s3_bucket= "mlewicki-mybucket-atos.net"
+  s3_key = "put.zip"
   function_name="aws_poc_put"
   role="${aws_iam_role.lambda_all.arn}"
   handler="put.lambda_handler"
@@ -349,7 +353,8 @@ resource "aws_lambda_function" "put"{
 }
 
 resource "aws_lambda_function" "delete"{
-  filename= "../Lambdas/Packages/del.zip"
+  s3_bucket= "mlewicki-mybucket-atos.net"
+  s3_key = "delete.zip"
   function_name="aws_poc_del"
   role="${aws_iam_role.lambda_all.arn}"
   handler="delete.lambda_handler"
