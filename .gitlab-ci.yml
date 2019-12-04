@@ -83,6 +83,8 @@ build_getpy:
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
     before_script: 
         - cd ./Lambdas
+        - export AWS_ACCESS_KEY_ID=$K8S_SECRET_AWS_AKEY
+        - export AWS_SECRET_ACCESS_KEY=$K8S_SECRET_AWS_SKEY
     script:
         - pip install --target ./package Pillow
         - cd ./package
@@ -95,6 +97,8 @@ build_delpy:
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
     before_script: 
         - cd ./Lambdas
+        - export AWS_ACCESS_KEY_ID=$K8S_SECRET_AWS_AKEY
+        - export AWS_SECRET_ACCESS_KEY=$K8S_SECRET_AWS_SKEY
     script:
         - pip install --target ./package Pillow
         - cd ./package
@@ -107,6 +111,8 @@ build_postpy:
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
     before_script: 
         - cd ./Lambdas
+        - export AWS_ACCESS_KEY_ID=$K8S_SECRET_AWS_AKEY
+        - export AWS_SECRET_ACCESS_KEY=$K8S_SECRET_AWS_SKEY
     script:
         - pip install --target ./package Pillow
         - cd ./package
@@ -119,6 +125,8 @@ build_putpy:
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
     before_script: 
         - cd ./Lambdas
+        - export AWS_ACCESS_KEY_ID=$K8S_SECRET_AWS_AKEY
+        - export AWS_SECRET_ACCESS_KEY=$K8S_SECRET_AWS_SKEY
     script:
         - pip install --target ./package Pillow
         - cd ./package
@@ -131,6 +139,8 @@ build_handpy:
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
     before_script: 
         - cd ./Lambdas
+        - export AWS_ACCESS_KEY_ID=$K8S_SECRET_AWS_AKEY
+        - export AWS_SECRET_ACCESS_KEY=$K8S_SECRET_AWS_SKEY
     script:
         - pip install --target ./package Pillow
         - cd ./package
