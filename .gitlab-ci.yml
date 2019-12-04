@@ -77,6 +77,72 @@ build_provision_image:
         variables:
             - $BUILD_AMI=='true' 
 
+build_getpy:
+    stage: build_lambdas
+    image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
+    before_script: 
+        - cd ./Lambdas
+    script:
+        - pip install --target ./package Pillow
+        - cd ./package
+        - zip -r9 ${OLDPWD}/get.zip .
+        - cd $OLDPWD
+        - zip -g get.zip get.py
+    after_script:
+        - aws s3 cp get.zip s3://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com
+build_delpy:
+    stage: build_lambdas
+    image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
+    before_script: 
+        - cd ./Lambdas
+    script:
+        - pip install --target ./package Pillow
+        - cd ./package
+        - zip -r9 ${OLDPWD}/delete.zip .
+        - cd $OLDPWD
+        - zip -g delete.zip delete.py
+    after_script:
+        - aws s3 cp delete.zip s3://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com
+build_postpy:
+    stage: build_lambdas
+    image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
+    before_script: 
+        - cd ./Lambdas
+    script:
+        - pip install --target ./package Pillow
+        - cd ./package
+        - zip -r9 ${OLDPWD}/post.zip .
+        - cd $OLDPWD
+        - zip -g post.zip post.py
+    after_script:
+        - aws s3 cp post.zip s3://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com
+build_putpy:
+    stage: build_lambdas
+    image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
+    before_script: 
+        - cd ./Lambdas
+    script:
+        - pip install --target ./package Pillow
+        - cd ./package
+        - zip -r9 ${OLDPWD}/put.zip .
+        - cd $OLDPWD
+        - zip -g put.zip put.py
+    after_script:
+        - aws s3 cp put.zip s3://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com
+build_handpy:
+    stage: build_lambdas
+    image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
+    before_script: 
+        - cd ./Lambdas
+    script:
+        - pip install --target ./package Pillow
+        - cd ./package
+        - zip -r9 ${OLDPWD}/handler.zip .
+        - cd $OLDPWD
+        - zip -g handler.zip handler.py
+    after_script:
+        - aws s3 cp handler.zip s3://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com
+
 
 validate_terraform_bucket:
     stage: tBackend
