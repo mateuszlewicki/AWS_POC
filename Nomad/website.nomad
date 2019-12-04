@@ -7,28 +7,23 @@ job "Website" {
       source    = "website"
     }
 
-task "angular" {
-  driver = "docker"
+group "up&run"{
 
-    artifact {
-        source      = "http://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com/website.tar"
-        destination = "local/some-directory"
-        options {
-          checksum = "md5:df6a4178aec9fbdc1d6d7e3634d1bc33"
+    task "angular" {
+      driver = "docker"
+
+    config {
+        image = "httpd"
+        portmap{ http = 80 }
+        labels {
+          group = "Website"
         }
-      }
-  config {
-    image = "httpd"
-    portmap{ http = 80 }
-    labels {
-      group = "Website"
     }
-  }
- resources {
-    network {
-      port "http" {}
+    resources {
+        network {
+          port "http" {}
+        }
     }
-  }
 
     volume_mount {
        volume      = "website"
@@ -36,23 +31,38 @@ task "angular" {
        read_only   = false
      }
 
- service {
-    name = "Website"
-    tags = ["urlprefix-/"]
-    port = "http"
-    check {
-      name     = "alive"
-      type     = "http"
-      path     = "/"
-      interval = "10s"
-      timeout  = "2s"
+
+    artifact {
+        source      = "http://mlewicki-mybucket-atos.net.s3-us-east-1.amazonaws.com/website.tar"
+        destination = "/opt/website/data/"
+        options {
+          checksum = "md5:df6a4178aec9fbdc1d6d7e3634d1bc33"
+        }
       }
+
+    service {
+       name = "Website"
+       tags = ["urlprefix-/"]
+       port = "http"
+       check {
+         name     = "alive"
+         type     = "http"
+         path     = "/"
+         interval = "10s"
+         timeout  = "2s"
+         }
+       }
     }
+
+    task "untar"{
+        driver = "exec"
+        command = "/usr/bin/tar -xvf /opt/website/data/website.tar"
+    }
+
+
+
+    }
+
 }
-
-
-}
-
-
 
 
