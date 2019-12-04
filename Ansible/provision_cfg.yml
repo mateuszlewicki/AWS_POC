@@ -110,6 +110,7 @@
               file:
                   path: /opt/consul
                   state: directory
+                  mode: '755'
             - name: make consul service file 
               template:
                   src: consul.service.j2
@@ -120,8 +121,9 @@
               file:
                   path: /etc/consul.d
                   state: directory
-                  mode: '0700'
-                  
+                  mode: '0755'
+              become: yes
+
             - name: make consul config file 
               template:
                   src: consul.json.j2
