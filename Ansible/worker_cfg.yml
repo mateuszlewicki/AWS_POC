@@ -50,8 +50,8 @@
               become: yes
             - name: make consul config file 
               template:
-                  src: consul.hcl.j2
-                  dest: /etc/consul.d/consul.hcl
+                  src: consul.json.j2
+                  dest: /etc/consul.d/consul.json
               become: yes
       - name: download nomad
         shell: curl --silent --remote-name https://releases.hashicorp.com/nomad/{{NOMAD_VERSION}}/nomad_{  {NOMAD_VERSION}}_linux_amd64.zip
