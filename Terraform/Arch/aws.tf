@@ -179,7 +179,7 @@ resource "aws_instance" "machine_provision_1"{
 
   ami = "${data.aws_ami.provision_ami.id}"
 
-  key_name = "${aws_key_pair.auth.id}"
+  //key_name = "${aws_key_pair.auth.id}"
 
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
 
@@ -213,7 +213,7 @@ resource "aws_instance" "machine_provision_2"{
 
   ami = "${data.aws_ami.provision_ami.id}"
 
-  key_name = "${aws_key_pair.auth.id}"
+  //key_name = "${aws_key_pair.auth.id}"
 
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
 
@@ -234,7 +234,7 @@ resource "aws_instance" "machine_provision_3"{
 
   ami = "${data.aws_ami.provision_ami.id}"
 
-  key_name = "${aws_key_pair.auth.id}"
+  //key_name = "${aws_key_pair.auth.id}"
 
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
 
@@ -260,7 +260,7 @@ resource "aws_instance" "machine_worker_1"{
 
   ami = "${data.aws_ami.worker_ami.id}"
 
-  key_name = "${aws_key_pair.auth.id}"
+  //key_name = "${aws_key_pair.auth.id}"
 
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
 
@@ -277,7 +277,7 @@ resource "aws_instance" "machine_worker_2"{
 
   ami = "${data.aws_ami.worker_ami.id}"
 
-  key_name = "${aws_key_pair.auth.id}"
+  //key_name = "${aws_key_pair.auth.id}"
 
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
 
@@ -294,7 +294,7 @@ resource "aws_instance" "machine_worker_3"{
 
   ami = "${data.aws_ami.worker_ami.id}"
 
-  key_name = "${aws_key_pair.auth.id}"
+  //key_name = "${aws_key_pair.auth.id}"
 
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
 
@@ -304,14 +304,17 @@ resource "aws_instance" "machine_worker_3"{
 # LAMBDAS
  resource "aws_iam_policy" "lambda_all" {
    policy = <<POLICY
- {
-   "Version": "2019-12-05",
-   "Statement": [{
-     "Effect": "Allow",
-     "Action": "*",
-     "Resource": "*"
-   }]
- }
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "fTerra",
+            "Effect": "Allow",
+            "Action": "lambda:*",
+            "Resource": "*"
+        }
+    ]
+}
  POLICY
  }
 ## GRAPHQL ##
@@ -319,7 +322,7 @@ resource "aws_lambda_function" "handler"{
   s3_bucket= "mlewicki-mybucket-atos.net"
   s3_key = "handler.zip"
   function_name="aws_poc_handler"
-  role="${aws_iam_role.lambda_all.arn}"
+  role="${module.aws_iam_role.lambda_all.arn}"
   handler="handler.lambda_handler"
   runtime= "python3.8"
 }
