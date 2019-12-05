@@ -1,6 +1,6 @@
 variables:
     BUILD_TF_IMG: 'fasle'
-    BUILD_ANGULAR_IMG: 'false'
+    BUILD_ANGULAR_IMG: 'true'
     BUILD_PACKER_IMG: 'false'
     VALIDATE_TF: 'true'
     BUILD_AMI: 'false'
@@ -219,9 +219,7 @@ build_website:
     stage: deploy
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/angular:latest
     script: 
-        - cd ./Website
-        - npm install
-        - cd ./MTT
+        - cd ./Website/MTT
         - ng build --prod
         - cd dist/MTT
         - tar -cvf website.tar *
