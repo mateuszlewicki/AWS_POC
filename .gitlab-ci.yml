@@ -200,6 +200,18 @@ deploy_terraform_full_arch:
     only: 
         variables:
             - $DEPLOY_TF=='true'     
+
+destroy_terraform_full_arch:
+    stage: deploy
+    before_script:
+        - cd ./Terraform/Arch
+        - export AWS_ACCESS_KEY_ID=$K8S_SECRET_AWS_AKEY
+        - export AWS_SECRET_ACCESS_KEY=$K8S_SECRET_AWS_SKEY
+        - terraform init
+    image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
+    script: 
+        - terraform apply -var "my-access-key=$K8S_SECRET_AWS_AKEY" -var "my-secret-key=$K8S_SECRET_AWS_SKEY" -auto-approve
+    when: on_failure
             
             
 build_website:
@@ -209,8 +221,7 @@ build_website:
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/angular:latest
     script: 
         - ng build --prod
-    after_script:
-        - cd ./Website/MTT/dist/MTT
+        - cd dist/MTT
         - tar -cvf website.tar *
         - aws s3 cp ./website.tar s3://mlewicki-mybucket-atos.net
     only: 

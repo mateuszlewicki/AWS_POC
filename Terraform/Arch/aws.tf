@@ -402,7 +402,7 @@ resource "aws_api_gateway_rest_api" "graphQl_intake" {
 resource "aws_api_gateway_stage" "graphQl_intake_stage" {
   stage_name    = "prod"
   rest_api_id   = "${aws_api_gateway_rest_api.graphQl_intake.id}"
-  deployment_id = "${aws_api_gateway_deployment.graphQl_intake.id}"
+  deployment_id = "${aws_api_gateway_deployment.graphQl_intake_dev.id}"
 }
 
 
@@ -431,8 +431,8 @@ resource "aws_api_gateway_integration" "integration" {
 }
 
 
-resource "aws_api_gateway_deployment" "graphQl_intake" {
+resource "aws_api_gateway_deployment" "graphQl_intake_dev" {
   depends_on  = ["aws_api_gateway_integration.integration"]
   rest_api_id = "${aws_api_gateway_rest_api.graphQl_intake.id}"
-  stage_name  = "prod"
+  stage_name  = "dev"
 }
