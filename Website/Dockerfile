@@ -1,4 +1,4 @@
-FROM node:8-alpine
+FROM node:current-alpine
 MAINTAINER "Mateusz Lewicki Atos Polska Global Services mateusz.lewicki@atos.net"
 # install angular-cli as node user
 RUN chown -R node:node /usr/local/lib/node_modules \
