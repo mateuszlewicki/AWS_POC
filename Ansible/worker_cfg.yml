@@ -54,7 +54,7 @@
                   dest: /etc/consul.d/consul.json
               become: yes
       - name: download nomad
-        shell: curl --silent --remote-name https://releases.hashicorp.com/nomad/{{NOMAD_VERSION}}/nomad_{  {NOMAD_VERSION}}_linux_amd64.zip
+        shell: curl --silent --remote-name https://releases.hashicorp.com/nomad/{{NOMAD_VERSION}}/nomad_{{NOMAD_VERSION}}_linux_amd64.zip
       - name: unzip nomad
         shell: unzip nomad_{{NOMAD_VERSION}}_linux_amd64.zip
     
