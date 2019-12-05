@@ -171,9 +171,9 @@ data "aws_ami" "worker_ami" {
 ## NOMAD-CONSUL-VAULT-FABIO
 resource "aws_instance" "machine_provision_1"{
  
-  connection {
+ /* connection {
     user = "ec2-user"
-  }
+  /*}
 
   instance_type = "t2.micro"
 
@@ -205,9 +205,9 @@ resource "aws_instance" "machine_provision_1"{
 
 resource "aws_instance" "machine_provision_2"{
 
-  connection {
+/* connection {
     user = "ec2-user"
-  }
+  /*}
 
   instance_type = "t2.micro"
 
@@ -226,9 +226,9 @@ resource "aws_instance" "machine_provision_2"{
 
 resource "aws_instance" "machine_provision_3"{
 
-  connection {
+  /* connection {
     user = "ec2-user"
-  }
+  /*}
 
   instance_type = "t2.micro"
 
@@ -252,9 +252,9 @@ resource "aws_instance" "machine_provision_3"{
 
 resource "aws_instance" "machine_worker_1"{
 
-  connection {
+/* connection {
     user = "ec2-user"
-  }
+  /*}
 
   instance_type = "t2.micro"
 
@@ -269,9 +269,9 @@ resource "aws_instance" "machine_worker_1"{
 
 resource "aws_instance" "machine_worker_2"{
 
-  connection {
+/* connection {
     user = "ec2-user"
-  }
+  /*}
 
   instance_type = "t2.micro"
 
@@ -286,9 +286,9 @@ resource "aws_instance" "machine_worker_2"{
 
 resource "aws_instance" "machine_worker_3"{
 
-  connection {
+/* connection {
     user = "ec2-user"
-  }
+  /*}
 
   instance_type = "t2.micro"
 
@@ -395,6 +395,9 @@ resource "aws_lambda_function" "delete"{
 # DynamoDB
 
 # API Endpoint
+resource "aws_api_gateway_rest_api" "graphQl_intake" {
+  name        = "mlewicki-graphQl-intake"
+}
 
 resource "aws_api_gateway_stage" "graphQl_intake_stage" {
   stage_name    = "prod"
@@ -402,9 +405,7 @@ resource "aws_api_gateway_stage" "graphQl_intake_stage" {
   deployment_id = "${aws_api_gateway_deployment.graphQl_intake.id}"
 }
 
-resource "aws_api_gateway_rest_api" "graphQl_intake" {
-  name        = "mlewicki-graphQl-intake"
-}
+
 
 
 resource "aws_api_gateway_resource" "resource" {
