@@ -173,7 +173,7 @@ resource "aws_instance" "machine_provision_1"{
  
  /* connection {
     user = "ec2-user"
-  /*}
+  }*/
 
   instance_type = "t2.micro"
 
@@ -207,7 +207,7 @@ resource "aws_instance" "machine_provision_2"{
 
 /* connection {
     user = "ec2-user"
-  /*}
+  }*/
 
   instance_type = "t2.micro"
 
@@ -228,7 +228,7 @@ resource "aws_instance" "machine_provision_3"{
 
   /* connection {
     user = "ec2-user"
-  /*}
+  }*/
 
   instance_type = "t2.micro"
 
@@ -254,7 +254,7 @@ resource "aws_instance" "machine_worker_1"{
 
 /* connection {
     user = "ec2-user"
-  /*}
+  }*/
 
   instance_type = "t2.micro"
 
@@ -271,7 +271,7 @@ resource "aws_instance" "machine_worker_2"{
 
 /* connection {
     user = "ec2-user"
-  /*}
+  }*/
 
   instance_type = "t2.micro"
 
@@ -288,7 +288,7 @@ resource "aws_instance" "machine_worker_3"{
 
 /* connection {
     user = "ec2-user"
-  /*}
+  }*/
 
   instance_type = "t2.micro"
 
