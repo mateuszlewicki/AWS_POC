@@ -71,6 +71,7 @@
         file:
             path: /opt/nomad
             state: directory
+        become: yes
       - name: make nomad service file 
         template:
             src: nomad.service.j2
@@ -83,7 +84,8 @@
         file:
             path: /etc/nomad.d
             state: directory
-            mode: '0700'
+            mode: '0755'
+        become: yes
       - name: make nomad config file 
         template:
             src: nomad.hcl.j2
