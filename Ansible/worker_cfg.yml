@@ -1,5 +1,8 @@
 ---
-- hosts: all
+- hosts: localhost
+  become: true
+  become_method: sudo
+  become_user: root
   vars:
       NOMAD_VERSION : "0.10.1"
       CONSUL_VERSION: "1.6.2"
@@ -40,7 +43,7 @@
               template:
                   src: consul.service.j2
                   dest: /usr/lib/systemd/system/consul.service
-                  mode: '755'
+                  mode: '0644'
               become: yes
             - name: make consul conf dir
               file:
@@ -76,7 +79,7 @@
         template:
             src: nomad.service.j2
             dest: /usr/lib/systemd/system/nomad.service
-            mode: '755'
+            mode: '0644'
         vars: 
             type: "client"
         become: yes
@@ -99,6 +102,7 @@
         loop:
             - consul
             - nomad
+        become: yes
 
       - name: create /opt/website/data
         file: 
