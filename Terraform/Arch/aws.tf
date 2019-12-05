@@ -160,7 +160,7 @@ data "aws_ami" "provision_ami" {
 }
 
 data "aws_ami" "worker_ami" {
-  executable_users = ["self"]
+  // executable_users = ["self"]
   most_recent      = true
   name_regex       = "^Nomad-worker-*"
   owners           = ["984287815837"]

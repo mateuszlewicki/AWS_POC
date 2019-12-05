@@ -3,7 +3,7 @@ variables:
     BUILD_ANGULAR_IMG: 'false'
     BUILD_PACKER_IMG: 'false'
     VALIDATE_TF: 'true'
-    BUILD_AMI: 'true'
+    BUILD_AMI: 'false'
     BUILD_WEBSITE: 'true'
     DEPLOY_TF: 'true'
     DEPLOY_TF_BUCKET: 'false'
@@ -210,7 +210,7 @@ build_website:
     script: 
         - ng build --prod
     after_script:
-        - cd dist/MTT
+        - cd ./Website/MTT/dist/MTT
         - tar -cvf website.tar *
         - aws s3 cp ./website.tar s3://mlewicki-mybucket-atos.net
     only: 
