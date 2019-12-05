@@ -144,12 +144,12 @@ resource "aws_proxy_protocol_policy" "ProxyProtocol" {
   load_balancer = "${aws_elb.poc_web.name}"
   instance_ports = ["9999"]
 }
-
+/*
 resource "aws_key_pair" "auth" {
   key_name   = "${var.key_name}"
   public_key = "${file(var.public_key_path)}"
 }
-
+*/
 # MACHINES
 
 data "aws_ami" "provision_ami" {
@@ -303,15 +303,14 @@ resource "aws_instance" "machine_worker_3"{
 
 # LAMBDAS
  resource "aws_iam_policy" "lambda_all" {
-   # ... other configuration ...
    policy = <<POLICY
  {
-   "Version": "2012-10-17",
-   "Statement": {
+   "Version": "2019-12-05",
+   "Statement": [{
      "Effect": "Allow",
      "Action": "*",
      "Resource": "*"
-   }
+   }]
  }
  POLICY
  }
