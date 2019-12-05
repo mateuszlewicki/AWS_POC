@@ -118,7 +118,7 @@ resource "aws_security_group" "default" {
 
 
 resource "aws_elb" "poc_web" {
-  name = "head_over_to_fabio"
+  name = "head-over-to-fabio"
 
   subnets         = ["${aws_subnet.default.id}"]
   security_groups = ["${aws_security_group.elb.id}"]
