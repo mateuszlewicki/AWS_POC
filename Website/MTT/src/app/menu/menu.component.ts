@@ -3,7 +3,6 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 
 export enum menu_elements { 
-  MTT = "MTT_ADDR",
   OFbiz = "/biz",
   Consul = "/cosnul/ui",
   Fabio = "/fabio",

@@ -219,8 +219,9 @@ build_website:
     stage: deploy
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/angular:latest
     script: 
-        - cd ./Website/MTT
+        - cd ./Website
         - npm install
+        - cd ./MTT
         - ng build --prod
         - cd dist/MTT
         - tar -cvf website.tar *

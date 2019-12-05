@@ -144,16 +144,9 @@ resource "aws_proxy_protocol_policy" "ProxyProtocol" {
   load_balancer = "${aws_elb.poc_web.name}"
   instance_ports = ["9999"]
 }
-/*
-resource "aws_key_pair" "auth" {
-  key_name   = "${var.key_name}"
-  public_key = "${file(var.public_key_path)}"
-}
-*/
 # MACHINES
 
 data "aws_ami" "provision_ami" {
-  // executable_users = ["self"]
   most_recent      = true
   name_regex       = "^Provision-cluster-*"
   owners           = ["984287815837"]
@@ -165,9 +158,6 @@ data "aws_ami" "worker_ami" {
   name_regex       = "^Nomad-worker-*"
   owners           = ["984287815837"]
 }
-
-
-
 
 ## NOMAD-CONSUL-VAULT-FABIO
 resource "aws_instance" "machine_provision_1"{
@@ -190,34 +180,14 @@ resource "aws_instance" "machine_provision_1"{
   }
   user_data ="${file("boot.sh")}"
   
-	
-// replace with git
-  // provisioner "file" {
-  //   source      = "../../Nomad/"
-  //   destination = "/opt/nomad"
-  // }
-
-// replace with user-data
-  // provisioner "remote-exec" {
-  //   inline = [
-  //     "cd /opt/nomad",
-  //     "bash ./boot.sh"
-  //   ]
-  // }
   
 }
 
 resource "aws_instance" "machine_provision_2"{
 
-/* connection {
-    user = "ec2-user"
-  }*/
-
   instance_type = "t2.micro"
 
   ami = "${data.aws_ami.provision_ami.id}"
-
-  //key_name = "${aws_key_pair.auth.id}"
 
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
 
@@ -408,6 +378,56 @@ resource "aws_lambda_function" "delete"{
 # SES - Simple Email Service
 
 # DynamoDB
+
+// resource "aws_dynamodb_table" "MTT-table" {
+//   name           = "MTT"
+//   read_capacity  = 20
+//   write_capacity = 20
+//   hash_key       = "package_id"
+//   range_key      = "date_send"
+
+// attribute {
+//     name = "package_id"
+//     type = "S"
+//   }
+
+//   attribute {
+//     name = "date_send"
+//     type = "S"
+//   }
+
+//   attribute {
+//     name = "from"
+//     type = "S"
+//   }
+
+//   attribute {
+//     name = "to"
+//     type = "S"
+//   }
+
+
+//   attribute {
+//     name = "delivery_updates"
+//     type = "S"
+//   }
+
+//   global_secondary_index {
+//     name               = "GameTitleIndex"
+//     hash_key           = "GameTitle"
+//     range_key          = "TopScore"
+//     write_capacity     = 10
+//     read_capacity      = 10
+//     projection_type    = "INCLUDE"
+//     non_key_attributes = ["UserId"]
+//   }
+
+//   tags = {
+//     Name        = "dynamodb-table-1"
+//     Environment = "production"
+//   }
+// }
+
 
 # API Endpoint
 resource "aws_api_gateway_rest_api" "graphQl_intake" {
