@@ -168,12 +168,11 @@ data "aws_ami" "worker_ami" {
 
 
 
+
 ## NOMAD-CONSUL-VAULT-FABIO
 resource "aws_instance" "machine_provision_1"{
  
- /* connection {
-    user = "ec2-user"
-  }*/
+ 
 
   instance_type = "t2.micro"
 
@@ -186,20 +185,30 @@ resource "aws_instance" "machine_provision_1"{
   subnet_id = "${aws_subnet.default.id}"
 
   tags = {
+    Name = "machine_provision_1"
     Type = "Quorum"
   }
+  user_data = << EOF
+    #! /bin/bash
+    git clone gateway.zscloud.net
+    cd aws_poc/Nomad
+    cp * /opt/nomad
+    cd /opt/nomad
+    for i in $(ls *.nomad); do nomad job run ${i}
+	EOF
+// replace with git
+  // provisioner "file" {
+  //   source      = "../../Nomad/"
+  //   destination = "/opt/nomad"
+  // }
 
-  provisioner "file" {
-    source      = "../../Nomad/"
-    destination = "/opt/nomad"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "cd /opt/nomad",
-      "bash ./boot.sh"
-    ]
-  }
+// replace with user-data
+  // provisioner "remote-exec" {
+  //   inline = [
+  //     "cd /opt/nomad",
+  //     "bash ./boot.sh"
+  //   ]
+  // }
   
 }
 
@@ -220,6 +229,7 @@ resource "aws_instance" "machine_provision_2"{
   subnet_id = "${aws_subnet.default.id}"
 
   tags = {
+    Name = "machine_provision_2"
     Type = "Quorum"
   }
 }
@@ -241,6 +251,7 @@ resource "aws_instance" "machine_provision_3"{
   subnet_id = "${aws_subnet.default.id}"
 
   tags = {
+    Name = "machine_provision_3"
     Type = "Quorum"
   }
 }
@@ -265,6 +276,9 @@ resource "aws_instance" "machine_worker_1"{
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
 
   subnet_id = "${aws_subnet.default.id}"
+  tags = {
+    Name = "machine_worker_1"
+    }
 }
 
 resource "aws_instance" "machine_worker_2"{
@@ -282,6 +296,9 @@ resource "aws_instance" "machine_worker_2"{
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
 
   subnet_id = "${aws_subnet.default.id}"
+  tags = {
+    Name = "machine_worker_2"
+    }
 }
 
 resource "aws_instance" "machine_worker_3"{
@@ -299,6 +316,9 @@ resource "aws_instance" "machine_worker_3"{
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
 
   subnet_id = "${aws_subnet.default.id}"
+  tags = {
+    Name = "machine_worker_3"
+    }
 }
 
 # LAMBDAS
