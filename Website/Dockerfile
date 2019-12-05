@@ -9,7 +9,7 @@ RUN npm install -g @angular/cli
 
 # set npm as default package manager for root
 USER root
-RUN ng set --global packageManager=npm
+#RUN ng set --global packageManager=npm
 
 # install chromium for headless browser tests
 ENV CHROME_BIN=/usr/bin/chromium-browser
