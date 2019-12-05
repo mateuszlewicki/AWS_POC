@@ -190,7 +190,7 @@ resource "aws_instance" "machine_provision_1"{
   }
   user_data ="${file("boot.sh")}"
   
-	EOF
+	
 // replace with git
   // provisioner "file" {
   //   source      = "../../Nomad/"
