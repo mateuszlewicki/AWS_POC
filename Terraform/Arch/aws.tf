@@ -153,17 +153,17 @@ resource "aws_key_pair" "auth" {
 # MACHINES
 
 data "aws_ami" "provision_ami" {
-  executable_users = ["self"]
+  // executable_users = ["self"]
   most_recent      = true
   name_regex       = "^Provision-cluster-*"
-  owners           = ["self"]
+  owners           = ["984287815837"]
 }
 
 data "aws_ami" "worker_ami" {
   executable_users = ["self"]
   most_recent      = true
-  name_regex       = "^nomad-worker-*"
-  owners           = ["self"]
+  name_regex       = "^Nomad-worker-*"
+  owners           = ["984287815837"]
 }
 
 

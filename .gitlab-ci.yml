@@ -3,7 +3,7 @@ variables:
     BUILD_ANGULAR_IMG: 'false'
     BUILD_PACKER_IMG: 'false'
     VALIDATE_TF: 'true'
-    BUILD_AMI: 'false'
+    BUILD_AMI: 'true'
     BUILD_WEBSITE: 'true'
     DEPLOY_TF: 'true'
     DEPLOY_TF_BUCKET: 'false'
