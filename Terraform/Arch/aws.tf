@@ -197,7 +197,7 @@ resource "aws_instance" "machine_provision_1"{
   provisioner "remote-exec" {
     inline = [
       "cd /opt/nomad",
-      "for i in $(ls *.nomad); do nomad job run ${i}"
+      'for i in $(ls *.nomad); do nomad job run ${i}'
     ]
   }
   
@@ -431,4 +431,8 @@ resource "aws_api_gateway_integration" "integration" {
 }
 
 
-
+resource "aws_api_gateway_deployment" "graphQl_intake" {
+  depends_on  = ["aws_api_gateway_integration.integration"]
+  rest_api_id = "${aws_api_gateway_rest_api.graphQl_intake.id}"
+  stage_name  = "prod"
+}
