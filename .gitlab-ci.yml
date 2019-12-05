@@ -6,7 +6,7 @@ variables:
     BUILD_AMI: 'false'
     BUILD_LAMBDAS: 'false'
     BUILD_WEBSITE: 'true'
-    DEPLOY_TF: 'true'
+    DEPLOY_TF: 'false'
     DEPLOY_TF_BUCKET: 'false'
 
 stages:
@@ -229,8 +229,7 @@ destroy_terraform_full_arch:
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
     script: 
         - terraform destroy -var "my-access-key=$K8S_SECRET_AWS_AKEY" -var "my-secret-key=$K8S_SECRET_AWS_SKEY" -auto-approve
-    when: on_failure
-            
+    
             
 build_website:
     stage: deploy_website
