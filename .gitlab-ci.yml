@@ -177,12 +177,12 @@ validate_terraform_full_arch:
     stage: validate
     before_script:
         - cd ./Terraform/Arch
-        - terraform init
         - export AWS_ACCESS_KEY_ID=$K8S_SECRET_AWS_AKEY
         - export AWS_SECRET_ACCESS_KEY=$K8S_SECRET_AWS_SKEY
+        - terraform init
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
     script: 
-        - terraform validate --backend-config="access_key=$K8S_SECRET_AWS_AKEY" --backend-config="secret_key=$K8S_SECRET_AWS_SKEY"
+        - terraform validate 
     only: 
         variables:
             - $VALIDATE_TF=='true'
@@ -191,10 +191,12 @@ deploy_terraform_full_arch:
     stage: deploy
     before_script:
         - cd ./Terraform/Arch
+        - export AWS_ACCESS_KEY_ID=$K8S_SECRET_AWS_AKEY
+        - export AWS_SECRET_ACCESS_KEY=$K8S_SECRET_AWS_SKEY
         - terraform init
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/terraform:latest
     script: 
-        - terraform apply -var "my-access-key=$K8S_SECRET_AWS_AKEY" -var "my-secret-key=$K8S_SECRET_AWS_SKEY" -auto-approve --backend-config="access_key=$K8S_SECRET_AWS_AKEY" --backend-config="secret_key=$K8S_SECRET_AWS_SKEY"
+        - terraform apply -var "my-access-key=$K8S_SECRET_AWS_AKEY" -var "my-secret-key=$K8S_SECRET_AWS_SKEY" -auto-approve
     only: 
         variables:
             - $DEPLOY_TF=='true'     
