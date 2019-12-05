@@ -1,11 +1,12 @@
 variables:
     BUILD_TF_IMG: 'fasle'
-    BUILD_ANGULAR_IMG: 'true'
+    BUILD_ANGULAR_IMG: 'false'
     BUILD_PACKER_IMG: 'false'
-    VALIDATE_TF: 'true'
+    VALIDATE_TF: 'false'
     BUILD_AMI: 'false'
+    BUILD_LAMBDAS: 'false'
     BUILD_WEBSITE: 'true'
-    DEPLOY_TF: 'true'
+    DEPLOY_TF: 'false'
     DEPLOY_TF_BUCKET: 'false'
 
 stages:
@@ -92,6 +93,9 @@ build_getpy:
         - cd $OLDPWD
         - zip -g get.zip get.py
         - aws s3 cp get.zip s3://mlewicki-mybucket-atos.net
+    only: 
+        variables:
+            - $BUILD_LAMBDAS=='true' 
 build_delpy:
     stage: build_lambdas
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
@@ -106,6 +110,9 @@ build_delpy:
         - cd $OLDPWD
         - zip -g delete.zip delete.py
         - aws s3 cp delete.zip s3://mlewicki-mybucket-atos.net
+    only: 
+        variables:
+            - $BUILD_LAMBDAS=='true' 
 build_postpy:
     stage: build_lambdas
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
@@ -120,6 +127,9 @@ build_postpy:
         - cd $OLDPWD
         - zip -g post.zip post.py
         - aws s3 cp post.zip s3://mlewicki-mybucket-atos.net
+    only: 
+        variables:
+            - $BUILD_LAMBDAS=='true' 
 build_putpy:
     stage: build_lambdas
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
@@ -134,6 +144,9 @@ build_putpy:
         - cd $OLDPWD
         - zip -g put.zip put.py
         - aws s3 cp put.zip s3://mlewicki-mybucket-atos.net
+    only: 
+        variables:
+            - $BUILD_LAMBDAS=='true' 
 build_handpy:
     stage: build_lambdas
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/packer:latest
@@ -148,6 +161,9 @@ build_handpy:
         - cd $OLDPWD
         - zip -g ./handler.zip handler.py
         - aws s3 cp handler.zip s3://mlewicki-mybucket-atos.net
+    only: 
+        variables:
+            - $BUILD_LAMBDAS=='true' 
 
 
 validate_terraform_bucket:
@@ -220,6 +236,7 @@ build_website:
     image: registry.gitlab.com/$K8S_SECRET_DOCKER_USER/aws_poc/angular:latest
     script: 
         - cd ./Website/MTT
+        - npm install
         - ng build --prod
         - cd dist/MTT
         - tar -cvf website.tar *
