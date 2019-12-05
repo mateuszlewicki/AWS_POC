@@ -188,7 +188,7 @@ resource "aws_instance" "machine_provision_1"{
     Name = "machine_provision_1"
     Type = "Quorum"
   }
-  user_data = << EOF
+  user_data = <<-EOF
     #! /bin/bash
     git clone gateway.zscloud.net
     cd aws_poc/Nomad
