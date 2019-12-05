@@ -326,7 +326,7 @@ resource "aws_lambda_function" "handler"{
 
 ## MAIL NOTIFY ##
 
-resource "aws_lambda_function" "sender"{}
+//resource "aws_lambda_function" "sender"{}
 
 
 ## DB INTERACTION ##
