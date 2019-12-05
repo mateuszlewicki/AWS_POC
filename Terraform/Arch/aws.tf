@@ -188,13 +188,8 @@ resource "aws_instance" "machine_provision_1"{
     Name = "machine_provision_1"
     Type = "Quorum"
   }
-  user_data = <<-EOF
-    #! /bin/bash
-    git clone gateway.zscloud.net
-    cd aws_poc/Nomad
-    cp * /opt/nomad
-    cd /opt/nomad
-    for i in $(ls *.nomad); do nomad job run ${i}
+  user_data ="${file("boot.sh")}"
+  
 	EOF
 // replace with git
   // provisioner "file" {
