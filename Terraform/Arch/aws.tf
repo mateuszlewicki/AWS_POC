@@ -224,6 +224,50 @@ resource "aws_proxy_protocol_policy" "ProxyProtocol" {
 }
 # MACHINES
 
+resource "aws_iam_role" "ec2_role" {
+  name = "ec2_role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_instance_profile" "ec2_profile" {
+  name = "ec2_profile"
+  role = "${aws_iam_role.ec2_role.name}"
+}
+
+resource "aws_iam_role_policy" "ec2_policy" {
+  name = "ec2_policy"
+  role = "${aws_iam_role.ec2_role.id}"
+
+  policy = <<EOF
+ {
+ "Version": "2012-10-17",
+ "Statement": [
+     {
+     "Sid": "",
+     "Effect": "Allow",
+     "Action": "ec2:DescribeInstances",
+     "Resource": "*"
+     }
+ ]
+ }
+EOF
+}
+
 data "aws_ami" "provision_ami" {
   most_recent      = true
   name_regex       = "^Provision-cluster-*"
@@ -243,6 +287,8 @@ resource "aws_instance" "machine_provision_1"{
  
 
   instance_type = "t2.micro"
+  iam_instance_profile = "${aws_iam_instance_profile.ec2_profile.name}"
+
 
   ami = "${data.aws_ami.provision_ami.id}"
 
@@ -264,7 +310,7 @@ resource "aws_instance" "machine_provision_1"{
 resource "aws_instance" "machine_provision_2"{
 
   instance_type = "t2.micro"
-
+iam_instance_profile = "${aws_iam_instance_profile.ec2_profile.name}"
   ami = "${data.aws_ami.provision_ami.id}"
 
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
@@ -284,7 +330,7 @@ resource "aws_instance" "machine_provision_3"{
   }*/
 
   instance_type = "t2.micro"
-
+iam_instance_profile = "${aws_iam_instance_profile.ec2_profile.name}"
   ami = "${data.aws_ami.provision_ami.id}"
 
   //key_name = "${aws_key_pair.auth.id}"
@@ -313,7 +359,7 @@ resource "aws_instance" "machine_worker_1"{
   instance_type = "t2.micro"
 
   ami = "${data.aws_ami.worker_ami.id}"
-
+iam_instance_profile = "${aws_iam_instance_profile.ec2_profile.name}"
   //key_name = "${aws_key_pair.auth.id}"
 
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
@@ -331,7 +377,7 @@ resource "aws_instance" "machine_worker_2"{
   }*/
 
   instance_type = "t2.micro"
-
+iam_instance_profile = "${aws_iam_instance_profile.ec2_profile.name}"
   ami = "${data.aws_ami.worker_ami.id}"
 
   //key_name = "${aws_key_pair.auth.id}"
@@ -351,7 +397,7 @@ resource "aws_instance" "machine_worker_3"{
   }*/
 
   instance_type = "t2.micro"
-
+iam_instance_profile = "${aws_iam_instance_profile.ec2_profile.name}"
   ami = "${data.aws_ami.worker_ami.id}"
 
   //key_name = "${aws_key_pair.auth.id}"
