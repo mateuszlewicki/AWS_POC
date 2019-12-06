@@ -1,4 +1,5 @@
 job "ApacheOFbiz" {
+  datacenters = ["dc1"]
 task "ERP" {
   driver = "docker"
 

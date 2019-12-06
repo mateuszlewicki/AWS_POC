@@ -1,4 +1,5 @@
 job "PostgreSQL" {
+  datacenters = ["dc1"]
 task "DB" {
   driver = "docker"
 

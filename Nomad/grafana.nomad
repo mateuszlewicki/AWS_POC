@@ -1,4 +1,5 @@
 job "grafana" {
+  datacenters = ["dc1"]
   task "graf" {
     driver = "docker"
 

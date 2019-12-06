@@ -1,14 +1,15 @@
 job "Website" {
 
-    
-    volume "website" {
+    datacenters = ["dc1"]
+ 
+
+group "up&run"{
+
+   volume "website" {
       type      = "host"
       read_only = false
       source    = "website"
     }
-
-group "up&run"{
-
     task "angular" {
       driver = "docker"
 
@@ -56,7 +57,7 @@ group "up&run"{
 
     task "untar"{
         driver = "exec"
-        command = "/usr/bin/tar -xvf /opt/website/data/website.tar"
+        config{ command = "/usr/bin/tar -xvf /opt/website/data/website.tar" }
         }
     }
 

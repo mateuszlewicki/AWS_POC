@@ -1,4 +1,5 @@
 job "Prometheus" {
+  datacenters = ["dc1"]
 task "monitor" {
   driver = "docker"
 

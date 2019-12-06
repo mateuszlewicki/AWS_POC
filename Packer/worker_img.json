@@ -8,7 +8,8 @@
       "inline": [
         "sleep 10",
         "uname -a",
-        "sudo amazon-linux-extras install ansible2"
+        "sudo amazon-linux-extras install ansible2",
+        "sudo amazon-linux-extras install docker"
       ]
 
     },
