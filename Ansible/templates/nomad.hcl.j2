@@ -8,10 +8,11 @@ server {
 {% else %}
 client {
     enabled = true
-}
+
 host_volume "website" {
     path      = "/opt/website/data"
     read_only = false
+  }
   }
 {% endif %}
 

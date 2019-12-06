@@ -3,13 +3,8 @@
 {% if type == "server" %}
   "server": true,
   "bootstrap_expect": 3,
-{% else %}
-"client": true,
 {% endif %}
-
-
   "retry_join": ["provider=aws tag_key=Type tag_value=Quorum"]
-
 }
 
 

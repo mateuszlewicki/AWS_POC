@@ -12,4 +12,11 @@
           "port": 80
         }
     }
+     "check": {
+    "id": "lb",
+    "name": "fabio on port 998",
+    "http": "https://localhost:9998/health",
+    "interval": "10s",
+    "timeout": "1s"
+  }
 }}

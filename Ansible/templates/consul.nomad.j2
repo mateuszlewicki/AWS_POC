@@ -12,4 +12,11 @@
           "port": 80
         }
     }
+     "check": {
+    "id": "nomad",
+    "name": "fabio on port 998",
+    "http": "https://localhost:4646/v1/agent/health",
+    "interval": "10s",
+    "timeout": "1s"
+  }
 }}
