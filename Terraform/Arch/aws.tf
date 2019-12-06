@@ -232,12 +232,24 @@ resource "aws_elb" "poc_web" {
     lb_port           = 9998
     lb_protocol       = "http"
   }
+  listener {
+    instance_port     = 4646
+    instance_protocol = "http"
+    lb_port           = 4646
+    lb_protocol       = "http"
+  }
+  listener {
+    instance_port     = 8500
+    instance_protocol = "http"
+    lb_port           = 8500
+    lb_protocol       = "http"
+  }
 
 }
 
 resource "aws_proxy_protocol_policy" "ProxyProtocol" {
   load_balancer = "${aws_elb.poc_web.name}"
-  instance_ports = ["9999"]
+  instance_ports = ["9999","9998","4646","8500"]
 }
 # MACHINES
 
@@ -416,6 +428,7 @@ resource "aws_instance" "machine_worker_3"{
 
   instance_type = "t2.micro"
 iam_instance_profile = "${aws_iam_instance_profile.ec2_profile.name}"
+
   ami = "${data.aws_ami.worker_ami.id}"
 
   //key_name = "${aws_key_pair.auth.id}"
