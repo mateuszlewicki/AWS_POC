@@ -102,6 +102,7 @@
         loop:
             - consul
             - nomad
+            - docker
         become: yes
 
       - name: create /opt/website/data
