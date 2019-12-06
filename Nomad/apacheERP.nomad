@@ -9,7 +9,7 @@ env{
   }
   config {
     image = "opensourceknight/ofbiz"
-    portmap{ http = 80 }
+    port_map{ http = 80 }
     labels {
       group = "Ofbiz"
     }

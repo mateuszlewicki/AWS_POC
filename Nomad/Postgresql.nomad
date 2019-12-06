@@ -10,7 +10,7 @@ task "DB" {
   }
   config {
     image = "postgres"
-    portmap{ tcp = 5432  }
+    port_map{ tcp = 5432  }
     labels {
       group = "Ofbiz"
     }

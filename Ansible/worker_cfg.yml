@@ -105,8 +105,8 @@
             - docker
         become: yes
 
-      - name: create /opt/website/data
+      - name: create /opt/database/data
         file: 
-            path: /opt/website/data
+            path: /opt/database/data
             state: directory
   

@@ -13,7 +13,7 @@ task "monitor" {
      volumes = [
           "local/prometheus.yml:/etc/prometheus/prometheus.yml"
         ]
-    portmap{ http = 9090 }
+    port_map{ http = 9090 }
     labels {
       group = "monitor"
     }

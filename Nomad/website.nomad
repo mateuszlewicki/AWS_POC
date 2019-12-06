@@ -5,11 +5,11 @@ job "Website" {
 
 group "up&run"{
 
-   volume "website" {
-      type      = "host"
-      read_only = false
-      source    = "website"
-    }
+#   volume "website" {
+#      type      = "host"
+#      read_only = false
+#      source    = "website"
+#    }
     task "angular" {
       driver = "docker"
 
@@ -19,6 +19,9 @@ group "up&run"{
             labels {
               group = "Website"
             }
+        volumes = [
+          "local/:/usr/local/apache2/htdocs/"
+        ]
         }
         resources {
             network {
@@ -26,16 +29,16 @@ group "up&run"{
             }
         }
     
-        volume_mount {
-           volume      = "website"
-           destination = "/usr/local/apache2/htdocs/"
-           read_only   = false
-         }
+#        volume_mount {
+#           volume      = "website"
+#           destination = "/usr/local/apache2/htdocs/"
+#           read_only   = false
+#         }
     
     
         artifact {
             source      = "https://s3.amazonaws.com/mlewicki-mybucket-atos.net/website.tar"
-            destination = "/opt/website/data/"
+            destination = "local/"
             options {
               archive = false
             }

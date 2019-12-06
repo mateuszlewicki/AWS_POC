@@ -5,7 +5,7 @@ job "grafana" {
 
     config {
       image = "grafana/grafana"
-      portmap{ http = 3000 }
+      port_map{ http = 3000 }
       labels {
         group = "monitor"
       }
