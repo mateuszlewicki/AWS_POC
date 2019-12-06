@@ -288,7 +288,8 @@ policy = <<EOF
   "Statement": [
     {
       "Action": [
-        "ec2:Describe*"
+        "ec2:Describe*",
+        "s3:GetObject"
       ],
       "Effect": "Allow",
       "Resource": "*"
