@@ -37,12 +37,9 @@ group "up&run"{
     
     
         artifact {
-            source      = "https://s3.amazonaws.com/mlewicki-mybucket-atos.net/website.tar"
+            source      = "https://s3.amazonaws.com/mlewicki-mybucket-atos.net/website.tar.gz"
             destination = "local/"
-            options {
-              archive = false
             }
-          }
     
         service {
            name = "Website"

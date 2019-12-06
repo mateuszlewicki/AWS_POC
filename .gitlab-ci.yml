@@ -2,10 +2,10 @@ variables:
     BUILD_TF_IMG: 'fasle'
     BUILD_ANGULAR_IMG: 'false'
     BUILD_PACKER_IMG: 'false'
-    VALIDATE_TF: 'false'
+    VALIDATE_TF: 'true'
     BUILD_AMI: 'true'
     BUILD_LAMBDAS: 'false'
-    BUILD_WEBSITE: 'false'
+    BUILD_WEBSITE: 'true'
     DEPLOY_TF: 'true'
     DEPLOY_TF_BUCKET: 'false'
 
@@ -243,8 +243,8 @@ build_website:
         - npm install
         - ng build --prod
         - cd dist/MTT
-        - tar -cvf website.tar *
-        - aws s3 cp ./website.tar s3://mlewicki-mybucket-atos.net
+        - tar -cvzf website.tar.gz *
+        - aws s3 cp ./website.tar.gz s3://mlewicki-mybucket-atos.net
     only: 
         variables:
             - $BUILD_WEBSITE=='true'

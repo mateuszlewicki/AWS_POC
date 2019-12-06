@@ -12,15 +12,14 @@ client {
 host_volume "website" {
     path      = "/opt/database/data"
     read_only = false
-  }
+  }}
   plugin "raw_exec" {
   config {
     enabled = true
   }
 }
 
-  }
-{% endif %}
+  {% endif %}
 
 telemetry {
   collection_interval = "1s"
