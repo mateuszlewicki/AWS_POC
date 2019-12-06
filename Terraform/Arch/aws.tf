@@ -253,18 +253,19 @@ resource "aws_iam_role_policy" "ec2_policy" {
   name = "ec2_policy"
   role = "${aws_iam_role.ec2_role.id}"
 
-  policy = <<EOF
- {
- "Version": "2012-10-17",
- "Statement": [
-     {
-     "Sid": "ec2",
-     "Effect": "Allow",
-     "Action": "ec2:*",
-     "Resource": "*"
-     }
- ]
- }
+policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "ec2:Describe*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
 EOF
 }
 
