@@ -13,6 +13,12 @@ host_volume "website" {
     path      = "/opt/website/data"
     read_only = false
   }
+  plugin "raw_exec" {
+  config {
+    enabled = true
+  }
+}
+
   }
 {% endif %}
 

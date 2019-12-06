@@ -15,7 +15,7 @@ group "up&run"{
 
         config {
             image = "httpd"
-            portmap{ http = 80 }
+            port_map{ http = 80 }
             labels {
               group = "Website"
             }
@@ -37,7 +37,7 @@ group "up&run"{
             source      = "https://s3.amazonaws.com/mlewicki-mybucket-atos.net/website.tar"
             destination = "/opt/website/data/"
             options {
-              checksum = "md5:df6a4178aec9fbdc1d6d7e3634d1bc33"
+              archive = false
             }
           }
     
@@ -55,10 +55,6 @@ group "up&run"{
            }
     }
 
-    task "untar"{
-        driver = "exec"
-        config{ command = "/usr/bin/tar -xvf /opt/website/data/website.tar" }
-        }
     }
 
 }
