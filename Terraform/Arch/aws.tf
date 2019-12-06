@@ -196,7 +196,7 @@ resource "aws_security_group" "default" {
 
     ingress{
     from_port   = 4646
-    to_port     = 4646
+    to_port     = 4648
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -204,7 +204,7 @@ resource "aws_security_group" "default" {
   #########
   egress {
     from_port   = 4646
-    to_port     = 4646
+    to_port     = 4648
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
