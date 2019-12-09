@@ -2,10 +2,10 @@ variables:
     BUILD_TF_IMG: 'fasle'
     BUILD_ANGULAR_IMG: 'false'
     BUILD_PACKER_IMG: 'false'
-    VALIDATE_TF: 'true'
-    BUILD_AMI: 'true'
+    VALIDATE_TF: 'false'
+    BUILD_AMI: 'false'
     BUILD_LAMBDAS: 'false'
-    BUILD_WEBSITE: 'true'
+    BUILD_WEBSITE: 'false'
     DEPLOY_TF: 'true'
     DEPLOY_TF_BUCKET: 'false'
 
