@@ -6,7 +6,7 @@ After=network-online.target
 
 [Service]
 ExecReload=/bin/kill -HUP $MAINPID
-ExecStart=/usr/local/bin/consul agent -config-file=/etc/consul.d/consul.json -config-dir=/etc/consul.d -ui
+ExecStart=/usr/local/bin/consul agent -config-file=/etc/consul.d/consul.json -config-dir=/etc/consul.d -ui -client=0.0.0.0
 KillMode=process
 KillSignal=SIGINT
 LimitNOFILE=infinity

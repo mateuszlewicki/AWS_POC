@@ -1,7 +1,7 @@
 {"service":
   {"name": "consul",
   "tags" : ["urlprefix-/consul"],
-   "port": 80,
+   "port": 8500,
    "tagged_addresses": {
         "lan": {
           "address": "127.0.0.1",
@@ -9,7 +9,7 @@
         },
         "wan": {
           "address": "127.0.0.1",
-          "port": 80
+          "port": 8500
         }
     },
      "check": {

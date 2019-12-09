@@ -6,7 +6,7 @@ variables:
     BUILD_AMI: 'false'
     BUILD_LAMBDAS: 'false'
     BUILD_WEBSITE: 'false'
-    DEPLOY_TF: 'true'
+    DEPLOY_TF: 'false'
     DEPLOY_TF_BUCKET: 'false'
 
 stages:
