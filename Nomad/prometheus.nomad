@@ -4,34 +4,43 @@ task "monitor" {
   driver = "docker"
 
   config {
+    network_mode = "host"
     image = "prom/prometheus:latest"
-    artifact {
-      source = "s3::https://my-bucket-example.s3-eu-west-1.amazonaws.com/my_app.tar.gz"
-      destination = "/etc/prometheus/prometheus.yml"
-      }
+    args = [
+        "--config.file=/etc/prometheus/prometheus.yml",
+        "--web.route-prefix=/prometheus",
+        "--web.external-url=http://localhost/prometheus/"
+]
+    
 
      volumes = [
           "local/prometheus.yml:/etc/prometheus/prometheus.yml"
         ]
-    port_map{ http = 9090 }
+    #port_map{ http = 9090 }
     labels {
       group = "monitor"
     }
   }
+  artifact {
+      source = "s3::https://s3.amazonaws.com/mlewicki-mybucket-atos.net/config.yml"
+      destination = "local/prometheus.yml"
+      mode = "file"
+      }
   resources {
     network {
-      port "http" {}
+      port "http" {
+      static = 9090}
     }
   }
 
   service {
     name = "prometheus"
-    tags = ["urlprefix-/prometheus"]
+    tags = ["urlprefix-/prometheus redirect=303"]
     port = "http"
     check {
       name     = "alive"
       type     = "http"
-      path     = "/-/healthy"
+      path     = "/prometheus/-/healthy"
       interval = "10s"
       timeout  = "2s"
       }
@@ -40,4 +49,3 @@ task "monitor" {
 
 
 }
-
