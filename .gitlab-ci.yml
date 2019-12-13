@@ -1,7 +1,7 @@
 variables:
-    BUILD_TF_IMG: 'true'
-    BUILD_ANGULAR_IMG: 'true'
-    BUILD_PACKER_IMG: 'true'
+    BUILD_TF_IMG: 'false'
+    BUILD_ANGULAR_IMG: 'false'
+    BUILD_PACKER_IMG: 'false'
     VALIDATE_TF: 'true'
     BUILD_AMI: 'true'
     BUILD_LAMBDAS: 'true'
