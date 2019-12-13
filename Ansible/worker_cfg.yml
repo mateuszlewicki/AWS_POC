@@ -18,6 +18,11 @@
             name: unzip
             state: latest
         become: yes
+      -name: install java
+        yum:
+            name: java-1.8.0-opejdk
+            state: latest
+        become: yes
       - name: install & configure consul
         block:
             - name: download consul

@@ -14,3 +14,7 @@ scrape_configs:
     metrics_path: /v1/metrics
     params:
       format: ['prometheus']
+
+  - job_name: 'node'
+    static_configs:
+    - targets: ['localhost:9107']

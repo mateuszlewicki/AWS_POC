@@ -1,5 +1,36 @@
 job "Prometheus" {
   datacenters = ["dc1"]
+  group "promWCons"{
+  task "conExp"{
+    driver= "docker"
+    config{ 
+      network_mode = "host"
+      image = "prom/consul-exporter"
+      args = [ "--consul.server=127.0.0.1:8500"]
+     	labels {
+        group = "monitor"
+      }
+    }
+    resources{
+    	network{
+       port "tcp"{
+       		static = 9107
+       		}
+       }
+    }
+      service{
+      	name="ConsExp"
+        port="tcp"
+        check{
+        	type = "tcp"
+          port = "tcp"
+          interval = "10s"
+          timeout = "5s"
+        }
+      }
+        
+    
+  }
 task "monitor" {
   driver = "docker"
 
@@ -46,6 +77,6 @@ task "monitor" {
       }
     }
 }
-
+  }
 
 }
