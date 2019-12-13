@@ -20,7 +20,7 @@
         become: yes
       - name: install java
         yum:
-            name: java-1.8.0-opejdk
+            name: java-1.8.0-openjdk
             state: latest
         become: yes
       - name: install & configure consul
